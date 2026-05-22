@@ -1,0 +1,64 @@
+---
+import { site } from '../data/site';
+---
+
+<section id="work" class="work">
+  <div class="container">
+    <p class="section-label reveal">Selected work</p>
+    <div class="work-grid">
+      {
+        site.work.map((w, i) => (
+          <article class="work-card reveal" style={`transition-delay: ${i * 70}ms`}>
+            <h3 class="work-title">{w.title}</h3>
+            <p class="work-blurb">{w.blurb}</p>
+            {w.link && (
+              <a class="work-link" href={w.link} target="_blank" rel="noopener">
+                {w.linkLabel}
+              </a>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .work-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  .work-card {
+    background: var(--bg-secondary);
+    border-radius: 18px;
+    padding: 34px;
+  }
+  .work-title {
+    font-size: 1.3rem;
+  }
+  .work-blurb {
+    margin-top: 12px;
+    color: var(--text-muted);
+    font-size: 0.97rem;
+    line-height: 1.6;
+  }
+  .work-link {
+    display: inline-block;
+    margin-top: 18px;
+    color: var(--accent);
+    font-size: 0.92rem;
+    transition: color 0.2s var(--ease);
+  }
+  .work-link:hover {
+    color: var(--accent-hover);
+  }
+  @media (max-width: 700px) {
+    .work-grid {
+      grid-template-columns: 1fr;
+    }
+    .work-card {
+      padding: 28px;
+    }
+  }
+</style>

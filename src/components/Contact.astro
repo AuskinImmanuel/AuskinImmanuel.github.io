@@ -1,0 +1,37 @@
+---
+import { site } from '../data/site';
+---
+
+<section id="contact" class="contact">
+  <div class="container">
+    <p class="section-label reveal">Get in touch</p>
+    <h2 class="contact-headline reveal">Building something with voice AI? Let's talk.</h2>
+    <div class="contact-links reveal">
+      <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
+      <a href={site.contact.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <a href={site.contact.github} target="_blank" rel="noopener">GitHub</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-headline {
+    font-size: clamp(1.9rem, 4.5vw, 3rem);
+    letter-spacing: -0.03em;
+    max-width: 18ch;
+  }
+  .contact-links {
+    margin-top: 36px;
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+  .contact-links a {
+    color: var(--accent);
+    font-size: 1.05rem;
+    transition: color 0.2s var(--ease);
+  }
+  .contact-links a:hover {
+    color: var(--accent-hover);
+  }
+</style>
