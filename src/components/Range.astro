@@ -1,0 +1,64 @@
+---
+import { site } from '../data/site';
+---
+
+<section id="range" class="range">
+  <div class="container-wide">
+    <h2 class="section-label reveal">Range</h2>
+    <h2 class="display-sm reveal">{site.range.intro}</h2>
+    <div class="range-grid">
+      {
+        site.range.pillars.map((p, i) => (
+          <article class="card pillar reveal" style={`transition-delay: ${i * 60}ms`}>
+            <h3 class="pillar-title">{p.title}</h3>
+            <p class="pillar-blurb">{p.blurb}</p>
+            <div class="pillar-pills">
+              {p.pills.map((s) => (
+                <span class="pill">{s}</span>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .range-grid {
+    margin-top: 56px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .pillar {
+    display: flex;
+    flex-direction: column;
+  }
+  .pillar-title {
+    font-size: 1.15rem;
+  }
+  .pillar-blurb {
+    margin-top: 10px;
+    font-size: 0.93rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .pillar-pills {
+    margin-top: auto;
+    padding-top: 22px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 900px) {
+    .range-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 620px) {
+    .range-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

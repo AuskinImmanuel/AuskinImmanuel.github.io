@@ -1,0 +1,108 @@
+---
+import { site } from '../data/site';
+---
+
+<section id="method" class="method band">
+  <div class="container">
+    <h2 class="section-label reveal">How I work</h2>
+    <p class="method-statement reveal">{site.method.statement}</p>
+  </div>
+  <div class="container-wide">
+    <div class="method-steps">
+      <div class="method-rail" aria-hidden="true"><span class="method-rail-line draw-line-x"></span></div>
+      {
+        site.method.steps.map((s, i) => (
+          <article class="method-step reveal" style={`transition-delay: ${i * 80}ms`}>
+            <span class="method-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="method-title">{s.title}</h3>
+            <p class="method-blurb">{s.blurb}</p>
+            <p class="method-proof">{s.proof}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .method-statement {
+    font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    max-width: 760px;
+  }
+  .method-steps {
+    position: relative;
+    margin-top: 72px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+  }
+  .method-rail {
+    position: absolute;
+    top: 14px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    overflow: hidden;
+  }
+  .method-rail-line {
+    display: block;
+    height: 1px;
+    width: 100%;
+    background: var(--border);
+  }
+  .method-step {
+    padding-top: 34px;
+    position: relative;
+  }
+  .method-step::before {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .method-num {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+  }
+  .method-title {
+    margin-top: 8px;
+    font-size: 1.25rem;
+  }
+  .method-blurb {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .method-proof {
+    margin-top: 14px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text);
+    border-left: 2px solid var(--accent);
+    padding-left: 10px;
+  }
+  @media (max-width: 900px) {
+    .method-steps {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 44px;
+    }
+    .method-rail {
+      display: none;
+    }
+  }
+  @media (max-width: 560px) {
+    .method-steps {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

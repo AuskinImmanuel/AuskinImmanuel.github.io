@@ -1,0 +1,177 @@
+---
+// A voice-agent orb: a CSS gradient sphere as the universal base layer,
+// with a Canvas 2D blob on top that breathes and reacts to scroll and
+// pointer proximity. The canvas never runs under reduced motion or
+// without JS; the CSS orb is always there.
+---
+
+<div class="orb" aria-hidden="true">
+  <div class="orb-base"></div>
+  <canvas class="orb-canvas" id="voice-orb-canvas"></canvas>
+</div>
+
+<style>
+  .orb {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1;
+    max-width: 440px;
+    margin: 0 auto;
+  }
+  .orb-base {
+    position: absolute;
+    inset: 8%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 32% 28%, color-mix(in srgb, #a7e5d3 72%, transparent) 0%, transparent 55%),
+      radial-gradient(circle at 68% 38%, color-mix(in srgb, #c8b8e0 62%, transparent) 0%, transparent 58%),
+      radial-gradient(circle at 50% 74%, color-mix(in srgb, #a8c8e8 66%, transparent) 0%, transparent 60%),
+      radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 14%, transparent) 0%, transparent 72%);
+    filter: blur(18px);
+    opacity: 0.9;
+  }
+  .orb-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var canvas = document.getElementById('voice-orb-canvas');
+    if (!canvas || !canvas.getContext) return;
+    var ctx = canvas.getContext('2d');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var raf = null;
+    var onscreen = true;
+    var t = 0;
+    var amp = 0.5;
+    var scrollBoost = 0;
+    var pointerBoost = 0;
+    var lastY = window.pageYOffset;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function size() {
+      var r = canvas.getBoundingClientRect();
+      if (!r.width) return;
+      canvas.width = r.width * dpr;
+      canvas.height = r.height * dpr;
+    }
+
+    function palette() {
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      return dark
+        ? { a: 'rgba(167,229,211,0.85)', b: 'rgba(200,184,224,0.65)', c: 'rgba(168,200,232,0.4)', core: 'rgba(245,245,247,0.16)' }
+        : { a: 'rgba(167,229,211,0.9)', b: 'rgba(200,184,224,0.7)', c: 'rgba(168,200,232,0.45)', core: 'rgba(255,255,255,0.55)' };
+    }
+
+    function draw() {
+      var w = canvas.width;
+      var h = canvas.height;
+      if (!w || !h) return;
+      var cx = w / 2;
+      var cy = h / 2;
+      var R = Math.min(w, h) * 0.33;
+      ctx.clearRect(0, 0, w, h);
+      var p = palette();
+      var g = ctx.createRadialGradient(cx - R * 0.28, cy - R * 0.32, R * 0.08, cx, cy, R * 1.18);
+      g.addColorStop(0, p.a);
+      g.addColorStop(0.45, p.b);
+      g.addColorStop(0.82, p.c);
+      g.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.beginPath();
+      var steps = 120;
+      for (var i = 0; i <= steps; i++) {
+        var th = (i / steps) * Math.PI * 2;
+        var wobble =
+          0.10 * Math.sin(3 * th + t * 1.3) +
+          0.06 * Math.sin(5 * th - t * 0.9) +
+          0.04 * Math.sin(7 * th + t * 0.6);
+        var r = R * (1 + amp * wobble);
+        var x = cx + Math.cos(th) * r;
+        var y = cy + Math.sin(th) * r;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.closePath();
+      ctx.fillStyle = g;
+      ctx.fill();
+      var hl = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.38, 0, cx - R * 0.3, cy - R * 0.38, R * 0.7);
+      hl.addColorStop(0, p.core);
+      hl.addColorStop(1, 'rgba(0,0,0,0)');
+      ctx.fillStyle = hl;
+      ctx.fill();
+    }
+
+    function loop() {
+      t += 0.016;
+      scrollBoost *= 0.94;
+      pointerBoost *= 0.95;
+      var target = 0.5 + Math.min(1.4, scrollBoost + pointerBoost);
+      amp += (target - amp) * 0.05;
+      draw();
+      raf = requestAnimationFrame(loop);
+    }
+
+    function start() {
+      if (raf || reduced.matches || !onscreen || document.hidden) return;
+      size();
+      raf = requestAnimationFrame(loop);
+    }
+
+    function stop() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+    }
+
+    window.addEventListener('resize', function () {
+      size();
+      if (!raf && !reduced.matches) draw();
+    });
+    window.addEventListener(
+      'scroll',
+      function () {
+        var y = window.pageYOffset;
+        scrollBoost = Math.min(1.2, scrollBoost + Math.abs(y - lastY) / 260);
+        lastY = y;
+      },
+      { passive: true }
+    );
+    window.addEventListener(
+      'pointermove',
+      function (e) {
+        var r = canvas.getBoundingClientRect();
+        if (!r.width) return;
+        var dx = e.clientX - (r.left + r.width / 2);
+        var dy = e.clientY - (r.top + r.height / 2);
+        var d = Math.sqrt(dx * dx + dy * dy);
+        var reach = Math.max(r.width, 320);
+        if (d < reach) pointerBoost = Math.max(pointerBoost, 0.9 * (1 - d / reach));
+      },
+      { passive: true }
+    );
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        onscreen = entries[entries.length - 1].isIntersecting;
+        if (onscreen) start();
+        else stop();
+      }).observe(canvas);
+    }
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) stop();
+      else start();
+    });
+    var onReduced = function () {
+      if (reduced.matches) {
+        stop();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      } else start();
+    };
+    if (reduced.addEventListener) reduced.addEventListener('change', onReduced);
+
+    start();
+  })();
+</script>

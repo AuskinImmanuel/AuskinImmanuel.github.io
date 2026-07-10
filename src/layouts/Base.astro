@@ -7,6 +7,9 @@ interface Props {
   description?: string;
 }
 const { title, description } = Astro.props;
+const pageTitle = title ?? site.name;
+const pageDescription = description ?? site.tagline;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 ---
 
 <!doctype html>
@@ -14,16 +17,36 @@ const { title, description } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{title ?? site.name}</title>
-    <meta name="description" content={description ?? site.tagline} />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <meta name="author" content={site.name} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+    <noscript
+      ><style>
+        .reveal {
+          opacity: 1 !important;
+          transform: none !important;
+          filter: none !important;
+        }
+      </style></noscript
+    >
     <script is:inline>
       (function () {
         try {
           var t = localStorage.getItem('theme');
           if (t === 'dark' || t === 'light') {
             document.documentElement.setAttribute('data-theme', t);
+            var meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', t === 'dark' ? '#000000' : '#ffffff');
           }
         } catch (e) {}
       })();
@@ -33,6 +56,30 @@ const { title, description } = Astro.props;
     <slot />
     <script is:inline>
       (function () {
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function countUp(el) {
+          if (reduced) return;
+          var text = el.textContent;
+          var m = text.match(/^([^0-9]*)([0-9][0-9.,]*)(.*)$/);
+          if (!m) return;
+          var target = parseFloat(m[2].replace(/,/g, ''));
+          if (!isFinite(target)) return;
+          var prefix = m[1];
+          var suffix = m[3];
+          var start = null;
+          var dur = 900;
+          function frame(ts) {
+            if (!start) start = ts;
+            var p = Math.min(1, (ts - start) / dur);
+            var eased = 1 - Math.pow(1 - p, 3);
+            el.textContent = prefix + Math.round(target * eased) + suffix;
+            if (p < 1) requestAnimationFrame(frame);
+            else el.textContent = text;
+          }
+          requestAnimationFrame(frame);
+        }
+
         var els = document.querySelectorAll('.reveal');
         if (!('IntersectionObserver' in window)) {
           els.forEach(function (el) {
@@ -45,6 +92,8 @@ const { title, description } = Astro.props;
             entries.forEach(function (entry) {
               if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                entry.target.querySelectorAll('[data-countup]').forEach(countUp);
+                if (entry.target.hasAttribute('data-countup')) countUp(entry.target);
                 io.unobserve(entry.target);
               }
             });
@@ -54,6 +103,34 @@ const { title, description } = Astro.props;
         els.forEach(function (el) {
           io.observe(el);
         });
+
+        var navLinks = document.querySelectorAll('[data-navlink]');
+        if (navLinks.length) {
+          var byId = {};
+          navLinks.forEach(function (a) {
+            var id = (a.getAttribute('href') || '').slice(1);
+            if (id) byId[id] = a;
+          });
+          var sectionIo = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                var link = byId[entry.target.id];
+                if (!link) return;
+                if (entry.isIntersecting) {
+                  navLinks.forEach(function (a) {
+                    a.classList.remove('active');
+                  });
+                  link.classList.add('active');
+                }
+              });
+            },
+            { rootMargin: '-40% 0px -55% 0px' }
+          );
+          Object.keys(byId).forEach(function (id) {
+            var sec = document.getElementById(id);
+            if (sec) sectionIo.observe(sec);
+          });
+        }
       })();
     </script>
   </body>

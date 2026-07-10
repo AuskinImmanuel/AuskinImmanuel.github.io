@@ -4,17 +4,26 @@ import { site } from '../data/site';
 
 <section id="experience" class="experience">
   <div class="container">
-    <p class="section-label reveal">Experience</p>
-    <div class="exp-list">
+    <h2 class="section-label reveal">Experience</h2>
+    <div class="timeline">
+      <div class="timeline-rail" aria-hidden="true"><span class="timeline-rail-line draw-line-y"></span></div>
       {
         site.experience.map((e, i) => (
           <article class="exp-item reveal" style={`transition-delay: ${i * 60}ms`}>
+            <span class="exp-dot" aria-hidden="true" />
             <div class="exp-head">
               <h3 class="exp-role">{e.role}</h3>
               <span class="exp-time">{e.time}</span>
             </div>
             <p class="exp-company">{e.company}</p>
             <p class="exp-blurb">{e.blurb}</p>
+            {e.chips && (
+              <div class="exp-chips">
+                {e.chips.map((c) => (
+                  <span class="pill">{c}</span>
+                ))}
+              </div>
+            )}
           </article>
         ))
       }
@@ -23,9 +32,39 @@ import { site } from '../data/site';
 </section>
 
 <style>
+  .timeline {
+    position: relative;
+    padding-left: 32px;
+  }
+  .timeline-rail {
+    position: absolute;
+    left: 4px;
+    top: 8px;
+    bottom: 8px;
+    width: 1px;
+    overflow: hidden;
+  }
+  .timeline-rail-line {
+    display: block;
+    width: 1px;
+    height: 100%;
+    background: var(--border);
+  }
   .exp-item {
+    position: relative;
     padding: 30px 0;
+  }
+  .exp-item + .exp-item {
     border-top: 1px solid var(--border);
+  }
+  .exp-dot {
+    position: absolute;
+    left: -32px;
+    top: 42px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
   }
   .exp-head {
     display: flex;
@@ -52,5 +91,11 @@ import { site } from '../data/site';
     color: var(--text-muted);
     max-width: 680px;
     line-height: 1.6;
+  }
+  .exp-chips {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
   }
 </style>

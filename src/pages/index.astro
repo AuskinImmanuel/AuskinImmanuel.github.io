@@ -2,23 +2,29 @@
 import Base from '../layouts/Base.astro';
 import Nav from '../components/Nav.astro';
 import Hero from '../components/Hero.astro';
-import About from '../components/About.astro';
-import Work from '../components/Work.astro';
+import Marquee from '../components/Marquee.astro';
+import Method from '../components/Method.astro';
+import CaseStudies from '../components/CaseStudies.astro';
+import Range from '../components/Range.astro';
 import Experience from '../components/Experience.astro';
-import Skills from '../components/Skills.astro';
+import Origin from '../components/Origin.astro';
+import OpenSource from '../components/OpenSource.astro';
 import Contact from '../components/Contact.astro';
 import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 ---
 
-<Base title={`${site.name}, Voice AI Engineer`} description={site.tagline}>
+<Base title={`${site.name}, Forward Deployed Product Manager`} description={site.tagline}>
   <Nav />
   <main>
     <Hero />
-    <About />
-    <Work />
+    <Marquee />
+    <Method />
+    <CaseStudies />
+    <Range />
     <Experience />
-    <Skills />
+    <Origin />
+    <OpenSource />
     <Contact />
   </main>
   <Footer />

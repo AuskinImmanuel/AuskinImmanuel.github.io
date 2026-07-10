@@ -4,9 +4,9 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
-  <div class="container footer-inner">
-    <span>{site.name}</span>
-    <span>{year}</span>
+  <div class="container-wide footer-inner">
+    <span>{site.name} · {year}</span>
+    <span>Hand-built with Astro. No trackers.</span>
   </div>
 </footer>
 
@@ -18,6 +18,8 @@ const year = new Date().getFullYear();
   .footer-inner {
     display: flex;
     justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
     color: var(--text-muted);
     font-size: 0.84rem;
   }

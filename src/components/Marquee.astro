@@ -1,0 +1,57 @@
+---
+import { site } from '../data/site';
+const items = site.marquee;
+---
+
+<div class="marquee" aria-label="Deployment areas">
+  <div class="marquee-track">
+    {
+      [0, 1].map((copy) => (
+        <ul class="marquee-list" aria-hidden={copy === 1 ? 'true' : undefined}>
+          {items.map((item) => (
+            <li>{item}</li>
+          ))}
+        </ul>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .marquee {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+    overflow: hidden;
+  }
+  .marquee-list {
+    display: flex;
+    list-style: none;
+    flex-shrink: 0;
+  }
+  .marquee-list li {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    white-space: nowrap;
+    padding: 0 28px;
+    position: relative;
+  }
+  .marquee-list li + li::before {
+    content: '·';
+    position: absolute;
+    left: -4px;
+    color: var(--border);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-list {
+      flex-wrap: wrap;
+      row-gap: 8px;
+    }
+    .marquee-list[aria-hidden='true'] {
+      display: none;
+    }
+  }
+</style>

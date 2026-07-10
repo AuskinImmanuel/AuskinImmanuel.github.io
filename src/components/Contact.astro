@@ -3,35 +3,53 @@ import { site } from '../data/site';
 ---
 
 <section id="contact" class="contact">
-  <div class="container">
-    <p class="section-label reveal">Get in touch</p>
-    <h2 class="contact-headline reveal">Building something with voice AI? Let's talk.</h2>
-    <div class="contact-links reveal">
-      <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a>
-      <a href={site.contact.linkedin} target="_blank" rel="noopener">LinkedIn</a>
-      <a href={site.contact.github} target="_blank" rel="noopener">GitHub</a>
+  <div class="contact-atmo atmo" aria-hidden="true"></div>
+  <div class="container contact-inner">
+    <h2 class="section-label reveal">Get in touch</h2>
+    <h2 class="display-sm reveal">{site.contact.headline}</h2>
+    <div class="contact-actions reveal" style="transition-delay: 120ms">
+      <a class="btn" href={`mailto:${site.contact.email}`}>Email me</a>
+      <a class="btn-ghost" href={site.contact.linkedin} target="_blank" rel="noopener">LinkedIn</a>
+      <a class="btn-ghost" href={site.contact.github} target="_blank" rel="noopener">GitHub</a>
     </div>
+    <p class="contact-email reveal" style="transition-delay: 200ms">{site.contact.email}</p>
   </div>
 </section>
 
 <style>
-  .contact-headline {
-    font-size: clamp(1.9rem, 4.5vw, 3rem);
-    letter-spacing: -0.03em;
+  .contact {
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-atmo {
+    position: absolute;
+    bottom: -40%;
+    left: 50%;
+    margin-left: -330px;
+    width: 660px;
+    height: 660px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 40% 40%, var(--atmo-peach) 0%, transparent 60%),
+      radial-gradient(circle at 65% 60%, var(--atmo-lavender) 0%, transparent 62%);
+    filter: blur(40px);
+    pointer-events: none;
+  }
+  .contact-inner {
+    position: relative;
+  }
+  .display-sm {
     max-width: 18ch;
   }
-  .contact-links {
-    margin-top: 36px;
+  .contact-actions {
+    margin-top: 40px;
     display: flex;
-    gap: 28px;
+    gap: 14px;
     flex-wrap: wrap;
   }
-  .contact-links a {
-    color: var(--accent);
-    font-size: 1.05rem;
-    transition: color 0.2s var(--ease);
-  }
-  .contact-links a:hover {
-    color: var(--accent-hover);
+  .contact-email {
+    margin-top: 26px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
   }
 </style>

@@ -1,0 +1,179 @@
+---
+import { site } from '../data/site';
+---
+
+<section id="work" class="work">
+  <div class="container-wide">
+    <h2 class="section-label reveal">Selected work</h2>
+    <div class="bento">
+      {
+        site.caseStudies.map((c, i) => (
+          <article
+            class={`card study reveal ${c.hero ? 'study-hero' : ''} ${c.wide ? 'study-wide' : ''}`}
+            style={`transition-delay: ${i * 70}ms`}
+          >
+            <div class="study-copy">
+              <span class="badge">{c.badge}</span>
+              <h3 class="study-title">{c.title}</h3>
+              <p class="study-blurb">{c.blurb}</p>
+            </div>
+            <div class="study-stat">
+              <span class="study-stat-value">{c.stat}</span>
+              <span class="study-stat-label">{c.statLabel}</span>
+            </div>
+            {c.bar && (
+              <div class="study-bar" aria-hidden="true">
+                <div class="study-bar-row">
+                  <span class="study-bar-tag">before</span>
+                  <div class="study-bar-track">
+                    <div class="study-bar-fill is-before" style={`width: ${c.bar.before}%`} />
+                  </div>
+                </div>
+                <div class="study-bar-row">
+                  <span class="study-bar-tag">after</span>
+                  <div class="study-bar-track">
+                    <div class="study-bar-fill is-after" style={`width: ${c.bar.after}%`} />
+                  </div>
+                </div>
+              </div>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .study {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    overflow: hidden;
+  }
+  .study-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .study-wide {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+  .study-wide .study-blurb {
+    max-width: 58ch;
+  }
+  .study-wide .study-stat {
+    margin-top: 0;
+    padding-top: 0;
+    text-align: right;
+    align-items: flex-end;
+  }
+  .study-hero {
+    grid-column: span 2;
+    grid-row: span 2;
+    background:
+      radial-gradient(circle at 85% 110%, var(--atmo-sky) 0%, transparent 55%),
+      radial-gradient(circle at 10% -10%, var(--atmo-mint) 0%, transparent 45%),
+      var(--bg);
+  }
+  .study-title {
+    margin-top: 20px;
+    font-size: 1.35rem;
+  }
+  .study-hero .study-title {
+    font-size: clamp(1.5rem, 2.6vw, 1.9rem);
+  }
+  .study-blurb {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.65;
+  }
+  .study-stat {
+    margin-top: auto;
+    padding-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .study-stat-value {
+    font-size: clamp(1.7rem, 3vw, 2.4rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    font-variant-numeric: tabular-nums;
+  }
+  .study-hero .study-stat-value {
+    font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  }
+  .study-stat-label {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .study-bar {
+    margin-top: 22px;
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .study-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .study-bar-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    width: 46px;
+  }
+  .study-bar-track {
+    flex: 1;
+    height: 6px;
+    border-radius: var(--radius-pill);
+    background: var(--bg-secondary);
+    overflow: hidden;
+  }
+  .study-bar-fill {
+    height: 100%;
+    border-radius: var(--radius-pill);
+  }
+  .study-bar-fill.is-before {
+    background: var(--border);
+  }
+  .study-bar-fill.is-after {
+    background: var(--accent);
+  }
+  @media (max-width: 900px) {
+    .bento {
+      grid-template-columns: 1fr 1fr;
+    }
+    .study-hero {
+      grid-column: span 2;
+      grid-row: auto;
+    }
+  }
+  @media (max-width: 620px) {
+    .bento {
+      grid-template-columns: 1fr;
+    }
+    .study-hero {
+      grid-column: auto;
+    }
+  }
+</style>

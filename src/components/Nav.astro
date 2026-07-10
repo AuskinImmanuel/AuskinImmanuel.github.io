@@ -4,13 +4,15 @@ import ThemeToggle from './ThemeToggle.astro';
 ---
 
 <nav class="nav">
-  <div class="container nav-inner">
+  <div class="container-wide nav-inner">
     <a href="#top" class="nav-name">{site.name}</a>
     <div class="nav-links">
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#contact">Contact</a>
+      <a href="#method" data-navlink>How I work</a>
+      <a href="#work" data-navlink>Work</a>
+      <a href="#range" data-navlink>Range</a>
+      <a href="#experience" data-navlink>Experience</a>
       <a href={site.contact.github} target="_blank" rel="noopener">GitHub</a>
+      <a class="nav-cta" href={`mailto:${site.contact.email}`}>Email me</a>
       <ThemeToggle />
     </div>
   </div>
@@ -40,7 +42,7 @@ import ThemeToggle from './ThemeToggle.astro';
   .nav-links {
     display: flex;
     align-items: center;
-    gap: 26px;
+    gap: 24px;
   }
   .nav-links a {
     font-size: 14px;
@@ -50,14 +52,45 @@ import ThemeToggle from './ThemeToggle.astro';
   .nav-links a:hover {
     color: var(--text);
   }
-  @media (max-width: 600px) {
+  .nav-links a[data-navlink].active {
+    color: var(--text);
+  }
+  .nav-cta {
+    display: inline-flex;
+    align-items: center;
+    height: 32px;
+    padding: 0 16px;
+    border-radius: var(--radius-pill);
+    background: var(--accent);
+    color: var(--on-accent) !important;
+    font-weight: 500;
+    transition: background-color 0.2s var(--ease);
+  }
+  .nav-cta:hover {
+    background: var(--accent-hover);
+  }
+  @media (max-width: 700px) {
     .nav-links {
-      gap: 16px;
+      gap: 12px;
     }
     .nav-links a {
       font-size: 13px;
     }
+    .nav-links a[href="#method"],
+    .nav-links a[href="#range"],
     .nav-links a[href="#experience"] {
+      display: none;
+    }
+    .nav-cta {
+      height: 30px;
+      padding: 0 12px;
+    }
+  }
+  @media (max-width: 430px) {
+    .nav-name {
+      font-size: 14px;
+    }
+    .nav-links a[href^="https://github"] {
       display: none;
     }
   }

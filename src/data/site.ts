@@ -2,47 +2,146 @@
 
 export const site = {
   name: "Auskin Immanuel",
-  tagline: "Voice AI engineer. I build production voice agents.",
+  tagline: "Forward deployed product manager. I deploy voice AI where it's hardest: healthcare phone lines.",
 
   hero: {
-    headline: "I build production voice AI agents.",
-    sub: "Voice AI engineer at VoxyHealth.",
+    badge: "Forward Deployed PM · Voice AI on ElevenLabs",
+    headline: "I deploy voice AI where it's hardest.",
+    sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: pull their real call recordings, catalogue what actually happens on their lines, then build the agents and iterate on live traffic until the numbers hold.",
     metrics: [
-      { value: "30+", label: "agents shipped" },
-      { value: "6", label: "enterprise clients" },
-      { value: "10% to 60%", label: "call accuracy lift" },
+      { value: "30+", label: "production agents" },
+      { value: "6", label: "enterprise healthcare clients" },
+      { value: "~3,500", label: "calls a day across the fleet" },
+      { value: "60-70%", label: "containment, up from 10-20%" },
+    ],
+    ctas: [
+      { label: "See the work", href: "#work", primary: true },
+      { label: "GitHub", href: "https://github.com/AuskinImmanuel", primary: false },
     ],
   },
 
-  about: [
-    "I build voice AI for healthcare: agents that take patient calls, answer claims and prior-authorization questions, book appointments, and follow up after a hospital discharge.",
-    "My path was unusual. I started in sales development, moved into customer success owning two AI products, then moved into product to build the agent side itself. Selling AI, implementing AI, building AI. Each step shaped how I think about what makes AI work in production.",
+  marquee: [
+    "Medicare Advantage claims line",
+    "multi-location orthopedic operator",
+    "EHR-integrated scheduling",
+    "post-discharge outreach",
+    "care-gap outreach",
+    "40-scenario call routing",
+    "eval-gated releases",
+    "HIPAA-aware design",
+    "multi-LLM A/B testing",
   ],
 
-  work: [
+  method: {
+    statement:
+      "I started in sales development, moved into customer success owning two AI products, then moved into product to build the agent side itself. Selling AI, implementing AI, building AI. That arc is why my agents work: I've sat on every side of the table they get deployed at.",
+    steps: [
+      {
+        title: "Embed",
+        blurb:
+          "I start inside the customer's world: their ops team, their call recordings, their real day. What actually happens on the line, not what the spec says happens.",
+        proof: "54 real call types catalogued for one operator agent",
+      },
+      {
+        title: "Design",
+        blurb:
+          "Scenario maps, transfer rules, tool contracts, prompt architecture. The agent exists on paper, agreed with the customer, before it says a word.",
+        proof: "911 and red-flag safety routing from day one",
+      },
+      {
+        title: "Ship",
+        blurb:
+          "Eval-gated releases, multi-LLM A/B tests, and live pilot calls I place myself against the real integration before anything goes live.",
+        proof: "about 15 agents stood up in one four-week window",
+      },
+      {
+        title: "Operate",
+        blurb:
+          "Live traffic is the real eval. I classify call outcomes, read the transcripts, and turn every failure class into a fix or a spec for engineering.",
+        proof: "28k calls analyzed, 268 hand-labelled",
+      },
+    ],
+  },
+
+  caseStudies: [
     {
-      title: "voice-agent-prompting",
+      title: "Medicare Advantage claims line",
+      badge: "Inbound",
       blurb:
-        "An open writeup of how I build production voice agents: the prompting architecture, model choice for low-latency telephony, and six worked sample agents for the ElevenLabs platform.",
-      link: "https://github.com/AuskinImmanuel/voice-agent-prompting",
-      linkLabel: "View on GitHub",
-    },
-    {
-      title: "Claims inbound agent",
-      blurb:
-        "Inbound voice agent for a Medicare Advantage health plan's claims line, around 900 calls a day. Two-phase tool calls, multi-LLM A/B testing, eval-gated releases. Fully-AI-handled containment rose from roughly 10-20% to 60-70%.",
+        "Inbound claims agent for a Medicare Advantage plan, around 900 calls a day. Two-phase tool calls, multi-LLM A/B testing, eval-gated releases. Rebuilding the prompt and eval rubric around call outcomes lifted fully-AI-handled containment from the 10-20% range to 60-70% on best cuts.",
+      stat: "10-20% to 60-70%",
+      statLabel: "fully-AI-handled containment, best cuts",
+      hero: true,
+      bar: { before: 15, after: 65 },
     },
     {
       title: "Multi-location orthopedic operator",
+      badge: "Inbound",
       blurb:
-        "One inbound operator agent for an 8-clinic orthopedic group. I catalogued 54 real call types into 36 scenarios and 20 transfer rules, with 911 and red-flag safety routing built in from day one.",
+        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I catalogued 54 real call types into about 40 scenarios with transfer rules and safety routing, then took it to live pilot calls on the real integration.",
+      stat: "40",
+      statLabel: "scenarios, one agent",
     },
     {
-      title: "Post-discharge outreach",
+      title: "Care-gap outreach platform",
+      badge: "Outbound",
       blurb:
-        "Outbound follow-up agent for Medicare Advantage members after a hospital discharge, with a nine-category call-outcome classifier.",
+        "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. The architecture runs five care gaps under a single master agent.",
+      stat: "5",
+      statLabel: "care gaps, one master agent",
+    },
+    {
+      title: "Fleet small-model migration",
+      badge: "Architecture",
+      blurb:
+        "Moved about nine production agents to a small, fast model in four weeks. The unlock is prompt architecture: a lean base prompt plus one card per scenario, with a single trailing guardrails block.",
+      stat: "20K to 6.4K",
+      statLabel: "tokens per turn",
+      wide: true,
     },
   ],
+
+  range: {
+    intro: "Six jobs, one operator.",
+    pillars: [
+      {
+        title: "AI product manager",
+        blurb:
+          "I own the agent roadmap: what we build, what good means, and the eval rubric that proves it.",
+        pills: ["Product management", "Eval design", "A/B testing"],
+      },
+      {
+        title: "Forward-deployment strategist",
+        blurb:
+          "From the first client workshop to a live pilot. I embed with the customer's team and build from their ground truth.",
+        pills: ["Customer discovery", "Scoping", "Pilot design"],
+      },
+      {
+        title: "Voice AI expert",
+        blurb:
+          "30+ production agents on ElevenLabs. Prompting architecture, model routing, latency budgets, speech discipline for small models.",
+        pills: ["ElevenLabs", "Prompt engineering", "Multi-LLM routing"],
+      },
+      {
+        title: "Customer-facing operator",
+        blurb:
+          "SDR, then CSM, then PM. I've been the person on the call at every stage, and I still run the customer meetings for my agents.",
+        pills: ["Discovery calls", "Demos", "Escalations"],
+      },
+      {
+        title: "Close to engineering",
+        blurb:
+          "I hand engineering exact contracts: tool schemas, validation specs, release plans. Live call failures come back as clean, testable asks.",
+        pills: ["Tool schemas", "Dev specs", "Release gates"],
+      },
+      {
+        title: "Hands-on when needed",
+        blurb:
+          "I ship internal tools, transforms, and prototypes with Claude Code, and I set the tooling up for our whole prompting team. Enough to prototype, debug, and partner credibly with engineering, not to replace it.",
+        pills: ["Claude Code", "SQL", "TypeScript (read and debug)"],
+      },
+    ],
+  },
 
   experience: [
     {
@@ -50,7 +149,8 @@ export const site = {
       company: "VoxyHealth",
       time: "Aug 2025 - Present",
       blurb:
-        "I own the prompting and evaluation side of healthcare voice agents end to end. Shipped 30+ production agents on ElevenLabs across 6 enterprise clients at about 8 a week, and lifted fully-AI-handled call accuracy from 10% to 60% on a claims agent by rebuilding evaluation around call outcomes.",
+        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, live pilot calls, and the specs engineering builds against. Shipped 30+ production agents on ElevenLabs across 6 enterprise clients.",
+      chips: ["30+ agents", "10-20% to 60-70% containment"],
     },
     {
       role: "Customer Success Manager",
@@ -64,7 +164,7 @@ export const site = {
       company: "Klenty",
       time: "Oct 2023 - Dec 2024",
       blurb:
-        "First role out of college, in B2B SaaS sales. Generated 15+ qualified leads and booked 8+ meetings a week, consistently above target. This is where the customer fluency that shapes how I scope and demo agents came from.",
+        "B2B SaaS sales, starting in my final year of college. Generated 15+ qualified leads and booked 8+ meetings a week, consistently above target. This is where the customer fluency that shapes how I scope and demo agents came from.",
     },
     {
       role: "LMS and Marketing Site Intern",
@@ -75,40 +175,51 @@ export const site = {
     },
   ],
 
-  skills: [
-    {
-      group: "Voice AI",
-      items: [
-        "Voice agent design",
-        "Prompt engineering",
-        "Agent behavior design",
-        "LLM evaluation and eval rubrics",
-        "Multi-LLM orchestration",
-        "RAG",
-        "A/B testing on agents",
-      ],
+  origin: {
+    label: "Where it started",
+    narrative: [
+      "Loyola-ICAM College of Engineering and Technology, Chennai. B.E. Computer Science, 2020 to 2024, 8.63 CGPA.",
+      "My first real software shipped here: a ten-month campus internship building the college's student portal, with a letter of appreciation at the end of it. Build a thing, watch real people use it, fix what they trip on. I've been chasing that loop ever since.",
+      "College is also where the pattern set. I'm the one who organises the fest, hypes the room, and then goes quiet for a week to lock in and build the thing. Both gears, on purpose.",
+    ],
+    groups: [
+      {
+        label: "Built",
+        items: [
+          { title: "Campus student portal", detail: "ten-month in-campus internship, with a letter of appreciation" },
+          { title: "LMS and marketing site", detail: "React and Node internship at Aptitude Guru Hem, leading a small team" },
+          { title: "Workshops", detail: "taught web development at EICON and ran a React workshop" },
+        ],
+      },
+      {
+        label: "Led",
+        items: [
+          { title: "Youth Red Cross", detail: "President" },
+          { title: "EICON", detail: "Creative Director" },
+          { title: "Culturals", detail: "Cultural Rep, plus a first place in drama on the same stages" },
+          { title: "Pattarai", detail: "member of the college builder club" },
+        ],
+      },
+    ],
+    receipts: {
+      line: "The receipts are still public: the student portal, the workshop repos, all of it.",
+      href: "https://github.com/AuskinImmanuel?tab=repositories",
+      label: "Old repos on GitHub",
     },
-    {
-      group: "Models and platforms",
-      items: ["ElevenLabs", "GPT-4.1", "Claude", "Gemini"],
-    },
-    {
-      group: "Domain",
-      items: ["Healthcare AI", "HIPAA-aware design", "Conversational AI", "B2B SaaS"],
-    },
-    {
-      group: "Also",
-      items: ["SQL", "JavaScript / TypeScript (read and debug)", "Customer discovery"],
-    },
-  ],
-
-  education: {
-    degree: "B.E. Computer Science and Engineering",
-    school: "Loyola-ICAM College of Engineering and Technology, Chennai",
-    time: "2020 - 2024",
   },
 
+  openSource: {
+    title: "voice-agent-prompting",
+    blurb:
+      "An open writeup of how I build production voice agents: the prompting architecture, model choice for low-latency telephony, writeups from live deployments, and six worked sample agents for the ElevenLabs platform.",
+    link: "https://github.com/AuskinImmanuel/voice-agent-prompting",
+    linkLabel: "Read it on GitHub",
+  },
+
+  writing: [],
+
   contact: {
+    headline: "Building something with voice? Let's talk.",
     email: "auskinimmanuel@gmail.com",
     linkedin: "https://www.linkedin.com/in/auskin-immanuel/",
     github: "https://github.com/AuskinImmanuel",
