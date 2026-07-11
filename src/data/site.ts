@@ -32,6 +32,34 @@ export const site = {
     "multi-LLM A/B testing",
   ],
 
+  liveCall: {
+    label: "One call, end to end",
+    headline: "What a good call sounds like.",
+    intro:
+      "The shape of the work: a live phone line, a real scheduling system behind it, and a caller who gets what they came for in one conversation. Scroll through a call.",
+    disclaimer: "Illustrative transcript. No real patient, clinic, or call data.",
+    header: "Inbound · orthopedic scheduling line",
+    turns: [
+      { who: "agent", text: "Thanks for calling. This is the clinic's virtual assistant. How can I help you today?" },
+      { who: "caller", text: "Hi, I need to move my knee follow-up. I'm travelling next week." },
+      { who: "note", text: "scenario matched: reschedule · one card of about 40" },
+      { who: "agent", text: "No problem, I can help with that. Can I get your first and last name?" },
+      { who: "caller", text: "Miguel Torres." },
+      { who: "agent", text: "Thanks, Miguel. And your date of birth?" },
+      { who: "caller", text: "March 9th, 84." },
+      { who: "note", text: "lookupPatient ✓ · verified against the live record" },
+      { who: "agent", text: "Found you. Your follow-up is Tuesday the 14th at 3:40 pm. When suits you better?" },
+      { who: "caller", text: "Friday morning, if you can." },
+      { who: "note", text: "getSlots ✓ · 2 openings inside the caller's window" },
+      { who: "agent", text: "I have Friday the 17th at 9:20 or 10:40 in the morning. Which works?" },
+      { who: "caller", text: "10:40." },
+      { who: "note", text: "bookAppointment ✓ · confirmed on the live system" },
+      { who: "agent", text: "Done. Friday the 17th, 10:40 am, and a text confirmation is on its way. Anything else?" },
+      { who: "caller", text: "No, that's perfect. Thanks!" },
+      { who: "note", text: "one conversation · no hold music · no transfer" },
+    ],
+  },
+
   method: {
     statement:
       "I started in sales development, moved into customer success owning two AI products, then moved into product to build the agent side itself. Selling AI, implementing AI, building AI. That arc is why my agents work: I've sat on every side of the table they get deployed at.",
@@ -81,6 +109,7 @@ export const site = {
         "One operator agent for a multi-location orthopedic group, integrated with their EHR. I catalogued 54 real call types into about 40 scenarios with transfer rules and safety routing, then took it to live pilot calls on the real integration.",
       stat: "40",
       statLabel: "scenarios, one agent",
+      art: "graph",
     },
     {
       title: "Care-gap outreach platform",
@@ -89,6 +118,7 @@ export const site = {
         "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. The architecture runs five care gaps under a single master agent.",
       stat: "5",
       statLabel: "care gaps, one master agent",
+      art: "gaps",
     },
     {
       title: "Fleet small-model migration",
@@ -98,6 +128,7 @@ export const site = {
       stat: "20K to 6.4K",
       statLabel: "tokens per turn",
       wide: true,
+      bar: { before: 100, after: 32 },
     },
   ],
 

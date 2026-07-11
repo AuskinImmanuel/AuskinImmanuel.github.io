@@ -1,13 +1,14 @@
 ---
-// A voice-agent orb: a CSS gradient sphere as the universal base layer,
-// with a Canvas 2D blob on top that breathes and reacts to scroll and
-// pointer proximity. The canvas never runs under reduced motion or
-// without JS; the CSS orb is always there.
+// The hero orb. A soft CSS gradient sphere is the universal base layer
+// (no JS, no WebGL2, reduced motion); on top, the orb shader from
+// ElevenLabs UI (github.com/elevenlabs/ui, MIT) rendered with raw WebGL2,
+// no framework. The orb "hears" the page: scroll and pointer energy
+// stand in for microphone volume.
 ---
 
 <div class="orb" aria-hidden="true">
   <div class="orb-base"></div>
-  <canvas class="orb-canvas" id="voice-orb-canvas"></canvas>
+  <canvas class="orb-canvas" id="voice-orb"></canvas>
 </div>
 
 <style>
@@ -20,7 +21,7 @@
   }
   .orb-base {
     position: absolute;
-    inset: 8%;
+    inset: 10%;
     border-radius: 50%;
     background:
       radial-gradient(circle at 32% 28%, color-mix(in srgb, #a7e5d3 72%, transparent) 0%, transparent 55%),
@@ -38,140 +39,416 @@
   }
 </style>
 
-<script is:inline>
-  (function () {
-    var canvas = document.getElementById('voice-orb-canvas');
-    if (!canvas || !canvas.getContext) return;
-    var ctx = canvas.getContext('2d');
-    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    var raf = null;
-    var onscreen = true;
-    var t = 0;
-    var amp = 0.5;
-    var scrollBoost = 0;
-    var pointerBoost = 0;
-    var lastY = window.pageYOffset;
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+<script>
+  const VERT = `#version 300 es
+in vec2 position;
+out vec2 vUv;
+void main() {
+  vUv = position * 0.5 + 0.5;
+  gl_Position = vec4(position, 0.0, 1.0);
+}`;
 
-    function size() {
-      var r = canvas.getBoundingClientRect();
-      if (!r.width) return;
-      canvas.width = r.width * dpr;
-      canvas.height = r.height * dpr;
+  // Fragment shader adapted from ElevenLabs UI's orb (MIT), ported to
+  // GLSL ES 3.00, with an added edge feather and premultiplied output.
+  const FRAG = `#version 300 es
+precision highp float;
+uniform float uTime;
+uniform float uAnimation;
+uniform float uInverted;
+uniform float uOffsets[7];
+uniform vec3 uColor1;
+uniform vec3 uColor2;
+uniform float uInputVolume;
+uniform float uOutputVolume;
+uniform float uOpacity;
+uniform sampler2D uPerlinTexture;
+in vec2 vUv;
+out vec4 fragColor;
+
+const float PI = 3.14159265358979323846;
+
+bool drawOval(vec2 polarUv, vec2 polarCenter, float a, float b, bool reverseGradient, float softness, out vec4 color) {
+    vec2 p = polarUv - polarCenter;
+    float oval = (p.x * p.x) / (a * a) + (p.y * p.y) / (b * b);
+    float edge = smoothstep(1.0, 1.0 - softness, oval);
+    if (edge > 0.0) {
+        float gradient = reverseGradient ? (1.0 - (p.x / a + 1.0) / 2.0) : ((p.x / a + 1.0) / 2.0);
+        gradient = mix(0.5, gradient, 0.1);
+        color = vec4(vec3(gradient), 0.85 * edge);
+        return true;
+    }
+    return false;
+}
+
+vec3 colorRamp(float grayscale, vec3 color1, vec3 color2, vec3 color3, vec3 color4) {
+    if (grayscale < 0.33) {
+        return mix(color1, color2, grayscale * 3.0);
+    } else if (grayscale < 0.66) {
+        return mix(color2, color3, (grayscale - 0.33) * 3.0);
+    } else {
+        return mix(color3, color4, (grayscale - 0.66) * 3.0);
+    }
+}
+
+vec2 hash2(vec2 p) {
+    return fract(sin(vec2(dot(p, vec2(127.1, 311.7)), dot(p, vec2(269.5, 183.3)))) * 43758.5453);
+}
+
+float noise2D(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    float n = mix(
+        mix(dot(hash2(i + vec2(0.0, 0.0)), f - vec2(0.0, 0.0)),
+            dot(hash2(i + vec2(1.0, 0.0)), f - vec2(1.0, 0.0)), u.x),
+        mix(dot(hash2(i + vec2(0.0, 1.0)), f - vec2(0.0, 1.0)),
+            dot(hash2(i + vec2(1.0, 1.0)), f - vec2(1.0, 1.0)), u.x),
+        u.y
+    );
+    return 0.5 + 0.5 * n;
+}
+
+float sharpRing(vec3 decomposed, float time) {
+    float noise = mix(
+        noise2D(vec2(decomposed.x, time) * 5.0),
+        noise2D(vec2(decomposed.y, time) * 5.0),
+        decomposed.z
+    );
+    noise = (noise - 0.5) * 2.5;
+    return 1.0 + noise * 0.45;
+}
+
+float smoothRing(vec3 decomposed, float time) {
+    float noise = mix(
+        noise2D(vec2(decomposed.x, time) * 6.0),
+        noise2D(vec2(decomposed.y, time) * 6.0),
+        decomposed.z
+    );
+    noise = (noise - 0.5) * 5.0;
+    return 0.9 + noise * 0.2;
+}
+
+float flow(vec3 decomposed, float time) {
+    return mix(
+        texture(uPerlinTexture, vec2(time, decomposed.x / 2.0)).r,
+        texture(uPerlinTexture, vec2(time, decomposed.y / 2.0)).r,
+        decomposed.z
+    );
+}
+
+void main() {
+    vec2 uv = (vUv * 2.0 - 1.0) * 1.08;
+
+    float radius = length(uv);
+    float theta = atan(uv.y, uv.x);
+    if (theta < 0.0) theta += 2.0 * PI;
+
+    vec3 decomposed = vec3(
+        theta / (2.0 * PI),
+        mod(theta / (2.0 * PI) + 0.5, 1.0) + 1.0,
+        abs(theta / PI - 1.0)
+    );
+
+    float noise = flow(decomposed, radius * 0.03 - uAnimation * 0.2) - 0.5;
+    theta += noise * mix(0.08, 0.25, uOutputVolume);
+
+    vec4 color = vec4(1.0, 1.0, 1.0, 1.0);
+
+    float originalCenters[7] = float[7](0.0, 0.5 * PI, 1.0 * PI, 1.5 * PI, 2.0 * PI, 2.5 * PI, 3.0 * PI);
+
+    float centers[7];
+    for (int i = 0; i < 7; i++) {
+        centers[i] = originalCenters[i] + 0.5 * sin(uTime / 20.0 + uOffsets[i]);
     }
 
-    function palette() {
-      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
-      return dark
-        ? { a: 'rgba(167,229,211,0.85)', b: 'rgba(200,184,224,0.65)', c: 'rgba(168,200,232,0.4)', core: 'rgba(245,245,247,0.16)' }
-        : { a: 'rgba(167,229,211,0.9)', b: 'rgba(200,184,224,0.7)', c: 'rgba(168,200,232,0.45)', core: 'rgba(255,255,255,0.55)' };
+    float a, b;
+    vec4 ovalColor;
+
+    for (int i = 0; i < 7; i++) {
+        float n = texture(uPerlinTexture, vec2(mod(centers[i] + uTime * 0.05, 1.0), 0.5)).r;
+        a = 0.5 + n * 0.3;
+        b = n * mix(3.5, 2.5, uInputVolume);
+        bool reverseGradient = (i - (i / 2) * 2 == 1);
+
+        float distTheta = min(
+            abs(theta - centers[i]),
+            min(
+                abs(theta + 2.0 * PI - centers[i]),
+                abs(theta - 2.0 * PI - centers[i])
+            )
+        );
+
+        if (drawOval(vec2(distTheta, radius), vec2(0.0, 0.0), a, b, reverseGradient, 0.6, ovalColor)) {
+            color.rgb = mix(color.rgb, ovalColor.rgb, ovalColor.a);
+            color.a = max(color.a, ovalColor.a);
+        }
     }
 
-    function draw() {
-      var w = canvas.width;
-      var h = canvas.height;
-      if (!w || !h) return;
-      var cx = w / 2;
-      var cy = h / 2;
-      var R = Math.min(w, h) * 0.33;
-      ctx.clearRect(0, 0, w, h);
-      var p = palette();
-      var g = ctx.createRadialGradient(cx - R * 0.28, cy - R * 0.32, R * 0.08, cx, cy, R * 1.18);
-      g.addColorStop(0, p.a);
-      g.addColorStop(0.45, p.b);
-      g.addColorStop(0.82, p.c);
-      g.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.beginPath();
-      var steps = 120;
-      for (var i = 0; i <= steps; i++) {
-        var th = (i / steps) * Math.PI * 2;
-        var wobble =
-          0.10 * Math.sin(3 * th + t * 1.3) +
-          0.06 * Math.sin(5 * th - t * 0.9) +
-          0.04 * Math.sin(7 * th + t * 0.6);
-        var r = R * (1 + amp * wobble);
-        var x = cx + Math.cos(th) * r;
-        var y = cy + Math.sin(th) * r;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      }
-      ctx.closePath();
-      ctx.fillStyle = g;
-      ctx.fill();
-      var hl = ctx.createRadialGradient(cx - R * 0.3, cy - R * 0.38, 0, cx - R * 0.3, cy - R * 0.38, R * 0.7);
-      hl.addColorStop(0, p.core);
-      hl.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = hl;
-      ctx.fill();
-    }
+    float ringRadius1 = sharpRing(decomposed, uTime * 0.1);
+    float ringRadius2 = smoothRing(decomposed, uTime * 0.1);
 
-    function loop() {
-      t += 0.016;
-      scrollBoost *= 0.94;
-      pointerBoost *= 0.95;
-      var target = 0.5 + Math.min(1.4, scrollBoost + pointerBoost);
-      amp += (target - amp) * 0.05;
-      draw();
-      raf = requestAnimationFrame(loop);
-    }
+    float inputRadius1 = radius + uInputVolume * 0.2;
+    float inputRadius2 = radius + uInputVolume * 0.15;
+    float opacity1 = mix(0.2, 0.6, uInputVolume);
+    float opacity2 = mix(0.15, 0.45, uInputVolume);
 
-    function start() {
-      if (raf || reduced.matches || !onscreen || document.hidden) return;
-      size();
-      raf = requestAnimationFrame(loop);
-    }
+    float ringAlpha1 = (inputRadius2 >= ringRadius1) ? opacity1 : 0.0;
+    float ringAlpha2 = smoothstep(ringRadius2 - 0.05, ringRadius2 + 0.05, inputRadius1) * opacity2;
 
-    function stop() {
-      if (raf) cancelAnimationFrame(raf);
-      raf = null;
-    }
+    float totalRingAlpha = max(ringAlpha1, ringAlpha2);
 
-    window.addEventListener('resize', function () {
-      size();
-      if (!raf && !reduced.matches) draw();
+    color.rgb = 1.0 - (1.0 - color.rgb) * (1.0 - vec3(1.0) * totalRingAlpha);
+
+    float luminance = mix(color.r, 1.0 - color.r, uInverted);
+    color.rgb = colorRamp(luminance, vec3(0.0), uColor1, uColor2, vec3(1.0));
+
+    color.a *= 1.0 - smoothstep(0.78, 1.0, radius);
+    color.a *= uOpacity;
+
+    fragColor = vec4(color.rgb * color.a, color.a);
+}`;
+
+  function initOrb() {
+    const canvas = document.getElementById('voice-orb') as HTMLCanvasElement | null;
+    if (!canvas) return;
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (reduced.matches) return;
+    const gl = canvas.getContext('webgl2', {
+      alpha: true,
+      antialias: true,
+      premultipliedAlpha: true,
     });
+    if (!gl) return;
+
+    function compile(type: number, src: string) {
+      const s = gl!.createShader(type)!;
+      gl!.shaderSource(s, src);
+      gl!.compileShader(s);
+      return s;
+    }
+    const program = gl.createProgram()!;
+    gl.attachShader(program, compile(gl.VERTEX_SHADER, VERT));
+    gl.attachShader(program, compile(gl.FRAGMENT_SHADER, FRAG));
+    gl.linkProgram(program);
+
+    // Compile on background threads where supported; never block the
+    // main thread waiting on the shader compiler.
+    const parallel = gl.getExtension('KHR_parallel_shader_compile');
+    const whenLinked = (cb: () => void) => {
+      if (
+        parallel &&
+        !gl.getProgramParameter(program, parallel.COMPLETION_STATUS_KHR)
+      ) {
+        requestAnimationFrame(() => whenLinked(cb));
+        return;
+      }
+      if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return;
+      cb();
+    };
+    whenLinked(() => runOrb(canvas, gl, program, reduced));
+  }
+
+  function runOrb(
+    canvas: HTMLCanvasElement,
+    gl: WebGL2RenderingContext,
+    program: WebGLProgram,
+    reduced: MediaQueryList
+  ) {
+    gl.useProgram(program);
+
+    const quad = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, quad);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 3, -1, -1, 3]),
+      gl.STATIC_DRAW
+    );
+    const posLoc = gl.getAttribLocation(program, 'position');
+    gl.enableVertexAttribArray(posLoc);
+    gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+    const U = (name: string) => gl.getUniformLocation(program, name);
+    const uTime = U('uTime');
+    const uAnimation = U('uAnimation');
+    const uInverted = U('uInverted');
+    const uInput = U('uInputVolume');
+    const uOutput = U('uOutputVolume');
+    const uOpacity = U('uOpacity');
+
+    gl.uniform3f(U('uColor1'), 0.659, 0.784, 0.91); /* #a8c8e8 */
+    gl.uniform3f(U('uColor2'), 0.812, 0.914, 0.867); /* #cfe9dd */
+    const offsets = new Float32Array(
+      Array.from({ length: 7 }, () => Math.random() * Math.PI * 2)
+    );
+    gl.uniform1fv(U('uOffsets'), offsets);
+
+    const setInverted = () => {
+      gl.uniform1f(
+        uInverted,
+        document.documentElement.getAttribute('data-theme') === 'dark' ? 1 : 0
+      );
+    };
+    setInverted();
+    new MutationObserver(setInverted).observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    // texture
+    let textureReady = false;
+    const tex = gl.createTexture();
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([128, 128, 128, 255]));
+    const img = new Image();
+    img.onload = () => {
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      textureReady = true;
+    };
+    img.src = '/perlin-noise.png';
+    gl.uniform1i(U('uPerlinTexture'), 0);
+
+    // page energy stands in for voice volume
+    let energy = 0;
+    let stamp = 0;
+    let lastY = window.pageYOffset;
+    const bump = (amount: number) => {
+      const now = performance.now();
+      energy = Math.min(1, energy * Math.exp(-(now - stamp) / 900) + amount);
+      stamp = now;
+    };
     window.addEventListener(
       'scroll',
-      function () {
-        var y = window.pageYOffset;
-        scrollBoost = Math.min(1.2, scrollBoost + Math.abs(y - lastY) / 260);
+      () => {
+        const y = window.pageYOffset;
+        bump(Math.abs(y - lastY) / 320);
         lastY = y;
       },
       { passive: true }
     );
     window.addEventListener(
       'pointermove',
-      function (e) {
-        var r = canvas.getBoundingClientRect();
+      (e) => {
+        const r = canvas.getBoundingClientRect();
         if (!r.width) return;
-        var dx = e.clientX - (r.left + r.width / 2);
-        var dy = e.clientY - (r.top + r.height / 2);
-        var d = Math.sqrt(dx * dx + dy * dy);
-        var reach = Math.max(r.width, 320);
-        if (d < reach) pointerBoost = Math.max(pointerBoost, 0.9 * (1 - d / reach));
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        const d = Math.sqrt(dx * dx + dy * dy);
+        const reach = Math.max(r.width, 360);
+        if (d < reach) bump(0.06 * (1 - d / reach));
       },
       { passive: true }
     );
+    const liveEnergy = () =>
+      Math.min(1, energy * Math.exp(-(performance.now() - stamp) / 900));
+
+    // state
+    let raf: number | null = null;
+    let onscreen = true;
+    let time = 0;
+    let anim = 0.1;
+    let animSpeed = 0.1;
+    let curIn = 0;
+    let curOut = 0;
+    let opacity = 0;
+    let last = 0;
+
+    function size() {
+      const r = canvas.getBoundingClientRect();
+      if (!r.width) return;
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = r.width * dpr;
+      canvas.height = r.height * dpr;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    }
+    window.addEventListener('resize', size);
+
+    function frame(ts: number) {
+      raf = requestAnimationFrame(frame);
+      if (!textureReady) return;
+      const delta = last ? Math.min(0.05, (ts - last) / 1000) : 0.016;
+      last = ts;
+
+      time += delta * 0.5;
+      opacity = Math.min(1, opacity + delta * 2);
+      const t = time * 2;
+      const e = liveEnergy();
+      const targetIn = Math.min(1, 0.12 + 0.06 * Math.sin(t * 0.7) + e);
+      const targetOut = Math.min(
+        1,
+        Math.max(0.36 + 0.08 * Math.sin(t * 1.05 + 0.6), 0.32 + 0.45 * e)
+      );
+      curIn += (targetIn - curIn) * 0.2;
+      curOut += (targetOut - curOut) * 0.2;
+      const targetSpeed = 0.1 + (1 - Math.pow(curOut - 1, 2)) * 0.9;
+      animSpeed += (targetSpeed - animSpeed) * 0.12;
+      anim += delta * animSpeed;
+
+      gl.uniform1f(uTime, time);
+      gl.uniform1f(uAnimation, anim);
+      gl.uniform1f(uInput, curIn);
+      gl.uniform1f(uOutput, curOut);
+      gl.uniform1f(uOpacity, opacity);
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      gl.drawArrays(gl.TRIANGLES, 0, 3);
+    }
+
+    function start() {
+      if (raf || reduced.matches || !onscreen || document.hidden) return;
+      size();
+      last = 0;
+      raf = requestAnimationFrame(frame);
+    }
+    function stop() {
+      if (raf) cancelAnimationFrame(raf);
+      raf = null;
+    }
 
     if ('IntersectionObserver' in window) {
-      new IntersectionObserver(function (entries) {
+      new IntersectionObserver((entries) => {
         onscreen = entries[entries.length - 1].isIntersecting;
         if (onscreen) start();
         else stop();
       }).observe(canvas);
     }
-    document.addEventListener('visibilitychange', function () {
+    document.addEventListener('visibilitychange', () => {
       if (document.hidden) stop();
       else start();
     });
-    var onReduced = function () {
+    const onReduced = () => {
       if (reduced.matches) {
         stop();
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        gl.clearColor(0, 0, 0, 0);
+        gl.clear(gl.COLOR_BUFFER_BIT);
       } else start();
     };
     if (reduced.addEventListener) reduced.addEventListener('change', onReduced);
 
     start();
-  })();
+  }
+
+  const kickoff = () => {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(() => initOrb(), { timeout: 1500 });
+    } else {
+      setTimeout(initOrb, 300);
+    }
+  };
+  const rmq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (rmq.matches && rmq.addEventListener) {
+    rmq.addEventListener('change', function once() {
+      if (!rmq.matches) {
+        rmq.removeEventListener('change', once);
+        kickoff();
+      }
+    });
+  } else {
+    kickoff();
+  }
 </script>

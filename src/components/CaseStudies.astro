@@ -16,6 +16,45 @@ import { site } from '../data/site';
               <span class="badge">{c.badge}</span>
               <h3 class="study-title">{c.title}</h3>
               <p class="study-blurb">{c.blurb}</p>
+              {c.art === 'graph' && (
+                <svg class="study-art" viewBox="0 0 240 96" fill="none" aria-hidden="true">
+                  <g stroke="var(--border)" stroke-width="1">
+                    <path d="M120 48 L52 22 M120 48 L38 56 M120 48 L64 84 M120 48 L104 14 M120 48 L150 16 M120 48 L196 30 M120 48 L206 62 M120 48 L162 86 M52 22 L104 14 M38 56 L64 84 M196 30 L150 16 M206 62 L162 86" />
+                  </g>
+                  <g fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1">
+                    <circle cx="52" cy="22" r="5" />
+                    <circle cx="38" cy="56" r="5" />
+                    <circle cx="64" cy="84" r="5" />
+                    <circle cx="104" cy="14" r="5" />
+                    <circle cx="150" cy="16" r="5" />
+                    <circle cx="196" cy="30" r="5" />
+                    <circle cx="206" cy="62" r="5" />
+                    <circle cx="162" cy="86" r="5" />
+                  </g>
+                  <circle cx="120" cy="48" r="9" fill="var(--accent)" />
+                  <circle cx="150" cy="16" r="5" fill="var(--accent)" opacity="0.55" />
+                  <circle cx="64" cy="84" r="5" fill="var(--accent)" opacity="0.35" />
+                </svg>
+              )}
+              {c.art === 'gaps' && (
+                <svg class="study-art" viewBox="0 0 240 96" fill="none" aria-hidden="true">
+                  <g stroke="var(--border)" stroke-width="1">
+                    <path d="M44 14 C 110 14, 130 48, 186 48" />
+                    <path d="M44 31 C 105 31, 128 48, 186 48" />
+                    <path d="M44 48 L 186 48" />
+                    <path d="M44 65 C 105 65, 128 48, 186 48" />
+                    <path d="M44 82 C 110 82, 130 48, 186 48" />
+                  </g>
+                  <g fill="var(--bg-secondary)" stroke="var(--border)" stroke-width="1">
+                    <circle cx="44" cy="14" r="6" />
+                    <circle cx="44" cy="31" r="6" />
+                    <circle cx="44" cy="48" r="6" />
+                    <circle cx="44" cy="65" r="6" />
+                    <circle cx="44" cy="82" r="6" />
+                  </g>
+                  <circle cx="186" cy="48" r="11" fill="var(--accent)" />
+                </svg>
+              )}
             </div>
             <div class="study-stat">
               <span class="study-stat-value">{c.stat}</span>
@@ -61,6 +100,12 @@ import { site } from '../data/site';
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+  }
+  .study-art {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 260px;
+    height: auto;
   }
   .study-wide {
     grid-column: 1 / -1;

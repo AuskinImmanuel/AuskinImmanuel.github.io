@@ -1,0 +1,192 @@
+---
+import { site } from '../data/site';
+const c = site.liveCall;
+---
+
+<section id="call" class="call">
+  <div class="container-wide call-pin">
+    <div class="call-grid">
+      <div class="call-copy">
+        <h2 class="section-label reveal">{c.label}</h2>
+        <p class="display-sm reveal">{c.headline}</p>
+        <p class="call-intro reveal" style="transition-delay: 100ms">{c.intro}</p>
+        <p class="call-disclaimer reveal" style="transition-delay: 180ms">{c.disclaimer}</p>
+      </div>
+      <div class="call-device reveal" style="transition-delay: 140ms">
+        <div class="device">
+          <div class="device-head">
+            <span class="device-dot" aria-hidden="true"></span>
+            <span>{c.header}</span>
+          </div>
+          <div class="device-body">
+            <div class="device-scroll">
+              {
+                c.turns.map((t) =>
+                  t.who === 'note' ? (
+                    <div class="turn turn-note">{t.text}</div>
+                  ) : (
+                    <div class={`turn bubble ${t.who === 'caller' ? 'from-caller' : 'from-agent'}`}>{t.text}</div>
+                  )
+                )
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .call-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 64px;
+    align-items: center;
+  }
+  .call-intro {
+    margin-top: 20px;
+    color: var(--text-muted);
+    max-width: 44ch;
+    line-height: 1.65;
+  }
+  .call-disclaimer {
+    margin-top: 14px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .call-device {
+    display: flex;
+    justify-content: center;
+  }
+  .device {
+    width: min(100%, 420px);
+    border: 1px solid var(--border);
+    border-radius: 28px;
+    background: var(--bg);
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+  }
+  .device-head {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .device-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #34c759;
+    flex-shrink: 0;
+  }
+  .device-body {
+    padding: 20px;
+  }
+  /* Constrained, auto-scrolling body only when the scroll story is active */
+  .call.is-scrolly .device-body {
+    height: clamp(360px, 56vh, 600px);
+    overflow: hidden;
+  }
+  .device-scroll {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .bubble {
+    max-width: 82%;
+    padding: 10px 15px;
+    border-radius: 18px;
+    font-size: 0.92rem;
+    line-height: 1.45;
+  }
+  .from-agent {
+    align-self: flex-start;
+    background: var(--bg-secondary);
+    border-bottom-left-radius: 6px;
+  }
+  .from-caller {
+    align-self: flex-end;
+    background: var(--accent);
+    color: var(--on-accent);
+    border-bottom-right-radius: 6px;
+  }
+  .turn-note {
+    align-self: center;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.72rem;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    padding: 4px 12px;
+    margin: 4px 0;
+  }
+  @media (max-width: 900px) {
+    .call-grid {
+      grid-template-columns: 1fr;
+      gap: 36px;
+      align-items: start;
+    }
+    .call.is-scrolly .call-copy .display-sm {
+      font-size: 1.6rem;
+    }
+    .call.is-scrolly .call-intro {
+      display: none;
+    }
+    .call.is-scrolly .device-body {
+      height: clamp(320px, 48vh, 520px);
+    }
+  }
+</style>
+
+<script>
+  import gsap from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  const mm = gsap.matchMedia();
+  mm.add('(prefers-reduced-motion: no-preference)', () => {
+    const section = document.querySelector('.call');
+    const pin = document.querySelector('.call-pin');
+    const body = document.querySelector('.device-body') as HTMLElement | null;
+    const list = document.querySelector('.device-scroll') as HTMLElement | null;
+    if (!section || !pin || !body || !list) return;
+
+    section.classList.add('is-scrolly');
+
+    const turns = gsap.utils.toArray<HTMLElement>('.call .turn');
+    gsap.set(turns, { autoAlpha: 0, y: 26 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: pin,
+        start: 'top top',
+        end: '+=' + turns.length * 190,
+        pin: true,
+        scrub: 0.5,
+        anticipatePin: 1,
+      },
+    });
+
+    turns.forEach((turn) => {
+      tl.to(turn, { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power2.out' }, '+=0.3');
+      // keep the newest message inside the frame
+      const overshoot = () =>
+        Math.max(0, turn.offsetTop + turn.offsetHeight - body.clientHeight + 24);
+      tl.to(list, { y: () => -overshoot(), duration: 0.55, ease: 'power2.out' }, '<');
+    });
+
+    return () => {
+      section.classList.remove('is-scrolly');
+      gsap.set(turns, { clearProps: 'all' });
+      gsap.set(list, { clearProps: 'all' });
+    };
+  });
+</script>
