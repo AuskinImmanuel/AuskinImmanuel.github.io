@@ -93,14 +93,21 @@ export const site = {
 
   caseStudies: [
     {
-      title: "Medicare Advantage claims line",
-      badge: "Inbound",
+      title: "A California health-insurance payer",
+      badge: "Payor side · 5 lines",
       blurb:
-        "Inbound claims agent for a Medicare Advantage plan, around 900 calls a day. Two-phase tool calls, multi-LLM A/B testing, eval-gated releases. Rebuilding the prompt and eval rubric around call outcomes lifted fully-AI-handled containment from the 10-20% range to 60-70% on best cuts.",
+        "My deepest payor relationship: one California health plan, a whole family of agent lines built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts.",
       stat: "10-20% to 60-70%",
       statLabel: "fully-AI-handled containment, best cuts",
       hero: true,
       bar: { before: 15, after: 65 },
+      lines: [
+        { name: "Medicare Advantage claims", note: "the flagship, ~900 calls a day" },
+        { name: "Medicare eligibility", note: "coverage and plan checks" },
+        { name: "Exchange eligibility", note: "marketplace members" },
+        { name: "Prior authorization", note: "inbound intake" },
+        { name: "Member verification", note: "outbound outreach" },
+      ],
     },
     {
       title: "Multi-location orthopedic operator",

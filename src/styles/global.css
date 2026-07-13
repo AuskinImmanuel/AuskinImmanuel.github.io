@@ -8,6 +8,7 @@
   --accent: #0066cc;
   --accent-hover: #0055aa;
   --on-accent: #ffffff;
+  --green: #1f9d4d;
 
   --max-width: 980px;
   --max-width-wide: 1152px;
@@ -35,6 +36,7 @@
   --accent: #2997ff;
   --accent-hover: #4aa8ff;
   --on-accent: #001a33;
+  --green: #30d158;
 
   --atmo-mint: color-mix(in srgb, #a7e5d3 22%, transparent);
   --atmo-lavender: color-mix(in srgb, #c8b8e0 20%, transparent);
@@ -236,6 +238,20 @@ button:focus-visible {
   transform: translateY(-2px);
   border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+}
+
+.hl {
+  font-style: normal;
+  border-radius: 3px;
+  text-decoration: underline;
+  text-decoration-color: var(--green);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: background-color 0.3s var(--ease);
+}
+
+.hl:hover {
+  background-color: color-mix(in srgb, var(--green) 16%, transparent);
 }
 
 .pill {
