@@ -6,9 +6,15 @@
 // stand in for microphone volume.
 ---
 
-<div class="orb" aria-hidden="true">
-  <div class="orb-base"></div>
-  <canvas class="orb-canvas" id="voice-orb"></canvas>
+<div class="orb">
+  <div class="orb-base" aria-hidden="true"></div>
+  <canvas class="orb-canvas" id="voice-orb" aria-hidden="true"></canvas>
+  <button class="orb-talk" id="orb-talk" type="button" aria-label="Talk to Auskin's voice agent">
+    Talk to my agent
+  </button>
+  <p class="orb-note" id="orb-note" hidden>
+    Voice chat with an AI agent Auskin built. Conversations may be recorded.
+  </p>
 </div>
 
 <style>
@@ -36,6 +42,81 @@
     inset: 0;
     width: 100%;
     height: 100%;
+    cursor: pointer;
+  }
+  .orb-talk {
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .orb-talk:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    transform: translateX(-50%) translateY(-1px);
+  }
+  .orb-talk.is-live {
+    border-color: var(--green);
+  }
+  .orb-talk.is-live::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .orb-note {
+    position: absolute;
+    left: 50%;
+    bottom: -26px;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 90%;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+  }
+  @media (max-width: 900px) {
+    .orb-talk {
+      position: fixed;
+      left: auto;
+      right: 18px;
+      bottom: 18px;
+      transform: none;
+      z-index: 90;
+      height: 42px;
+      padding: 0 20px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+    }
+    .orb-talk:hover {
+      transform: none;
+    }
+    .orb-note {
+      position: fixed;
+      left: auto;
+      right: 18px;
+      bottom: 64px;
+      transform: none;
+      z-index: 90;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      padding: 4px 10px;
+      border-radius: 8px;
+    }
   }
 </style>
 
@@ -208,6 +289,9 @@ void main() {
     fragColor = vec4(color.rgb * color.a, color.a);
 }`;
 
+  // shared between the render loop and the talk controller
+  const orbConversation: { current: any } = { current: null };
+
   function initOrb() {
     const canvas = document.getElementById('voice-orb') as HTMLCanvasElement | null;
     if (!canvas) return;
@@ -377,12 +461,23 @@ void main() {
       time += delta * 0.5;
       opacity = Math.min(1, opacity + delta * 2);
       const t = time * 2;
-      const e = liveEnergy();
-      const targetIn = Math.min(1, 0.12 + 0.06 * Math.sin(t * 0.7) + e);
-      const targetOut = Math.min(
-        1,
-        Math.max(0.36 + 0.08 * Math.sin(t * 1.05 + 0.6), 0.32 + 0.45 * e)
-      );
+      let targetIn: number;
+      let targetOut: number;
+      const conv = orbConversation.current;
+      if (conv) {
+        // a live agent call drives the orb: caller volume in, agent volume out
+        const vin = conv.getInputVolume ? conv.getInputVolume() : 0;
+        const vout = conv.getOutputVolume ? conv.getOutputVolume() : 0;
+        targetIn = Math.min(1, 0.15 + vin * 1.3);
+        targetOut = Math.min(1, 0.4 + vout * 0.9);
+      } else {
+        const e = liveEnergy();
+        targetIn = Math.min(1, 0.12 + 0.06 * Math.sin(t * 0.7) + e);
+        targetOut = Math.min(
+          1,
+          Math.max(0.36 + 0.08 * Math.sin(t * 1.05 + 0.6), 0.32 + 0.45 * e)
+        );
+      }
       curIn += (targetIn - curIn) * 0.2;
       curOut += (targetOut - curOut) * 0.2;
       const targetSpeed = 0.1 + (1 - Math.pow(curOut - 1, 2)) * 0.9;
@@ -451,4 +546,85 @@ void main() {
   } else {
     kickoff();
   }
+
+  // ---- talk to the agent ----
+  const AGENT_ID = 'agent_7401kxfmyja1fyaacyfb09th9r56';
+
+  (function talkControl() {
+    const btn = document.getElementById('orb-talk');
+    const note = document.getElementById('orb-note');
+    const canvas = document.getElementById('voice-orb');
+    if (!btn) return;
+    let state: 'idle' | 'connecting' | 'live' = 'idle';
+
+    function setLabel(text: string) {
+      btn!.textContent = text;
+    }
+    function setState(next: typeof state, label?: string) {
+      state = next;
+      btn!.classList.toggle('is-live', next === 'live');
+      btn!.setAttribute('aria-pressed', next === 'live' ? 'true' : 'false');
+      if (note) note.hidden = next === 'idle';
+      setLabel(
+        label ??
+          (next === 'idle'
+            ? 'Talk to my agent'
+            : next === 'connecting'
+              ? 'Connecting...'
+              : 'Live · tap to end')
+      );
+    }
+
+    async function stop() {
+      const conv = orbConversation.current;
+      orbConversation.current = null;
+      setState('idle');
+      if (conv) {
+        try {
+          await conv.endSession();
+        } catch (e) {}
+      }
+    }
+
+    async function start() {
+      setState('connecting');
+      try {
+        const mod = await import('@elevenlabs/client');
+        const conversation = await mod.Conversation.startSession({
+          agentId: AGENT_ID,
+          connectionType: 'webrtc',
+          onModeChange: (m: { mode: string }) => {
+            if (state === 'live') {
+              setState('live', m.mode === 'speaking' ? 'Speaking · tap to end' : 'Listening · tap to end');
+            }
+          },
+          onDisconnect: () => {
+            orbConversation.current = null;
+            setState('idle');
+          },
+          onError: () => {
+            stop();
+          },
+        });
+        orbConversation.current = conversation;
+        setState('live');
+      } catch (e) {
+        setState('idle', 'Mic needed. Try again');
+        setTimeout(() => {
+          if (state === 'idle') setLabel('Talk to my agent');
+        }, 2600);
+      }
+    }
+
+    function toggle() {
+      if (state === 'idle') start();
+      else stop();
+    }
+
+    btn.addEventListener('click', toggle);
+    if (canvas) canvas.addEventListener('click', toggle);
+    window.addEventListener('pagehide', () => {
+      if (orbConversation.current) stop();
+    });
+  })();
 </script>
