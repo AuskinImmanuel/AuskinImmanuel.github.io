@@ -11,6 +11,7 @@ import { site } from '../data/site';
       <a class="btn" href={`mailto:${site.contact.email}`}>Email me</a>
       <a class="btn-ghost" href={site.contact.linkedin} target="_blank" rel="noopener">LinkedIn</a>
       <a class="btn-ghost" href={site.contact.github} target="_blank" rel="noopener">GitHub</a>
+      <a class="btn-ghost" href={site.contact.resume} download="Auskin-Immanuel-Resume.pdf">Download resume</a>
     </div>
     <p class="contact-email reveal" style="transition-delay: 200ms">
       <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> · <a href={`tel:${site.contact.phone.replace(/ /g, '')}`}>{site.contact.phone}</a>
