@@ -642,6 +642,13 @@ void main() {
               setState('live', m.mode === 'speaking' ? 'Speaking · tap to end' : 'Listening · tap to end');
             }
           },
+          onDisconnect: () => {
+            // the agent can end the call itself (end_call tool); follow it
+            if (gen !== myGen) return;
+            orbConversation.current = null;
+            clearWatchdog();
+            setState('idle');
+          },
           onError: (e: unknown) => {
             console.warn('agent session error', e);
             if (gen === myGen) stop();
