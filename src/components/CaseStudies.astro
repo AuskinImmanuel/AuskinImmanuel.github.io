@@ -1,7 +1,6 @@
 ---
 import { site } from '../data/site';
-// «…» in a blurb marks a green-highlighted phrase
-const seg = (s: string) => s.split(/[«»]/);
+import { parseMarks } from '../lib/markup';
 ---
 
 <section id="work" class="work">
@@ -18,7 +17,7 @@ const seg = (s: string) => s.split(/[«»]/);
               <span class="badge">{c.badge}</span>
               <h3 class="study-title">{c.title}</h3>
               <p class="study-blurb">
-                {seg(c.blurb).map((part, i) => (i % 2 === 1 ? <em class="hl">{part}</em> : part))}
+                {parseMarks(c.blurb).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}
               </p>
               {c.art === 'graph' && (
                 <svg class="study-art art-net" viewBox="0 0 240 96" fill="none" aria-hidden="true">

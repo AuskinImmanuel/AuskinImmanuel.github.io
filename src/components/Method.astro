@@ -1,11 +1,12 @@
 ---
 import { site } from '../data/site';
+import { parseMarks } from '../lib/markup';
 ---
 
 <section id="method" class="method band">
   <div class="container">
     <h2 class="section-label reveal">How I work</h2>
-    <p class="method-statement reveal">{site.method.statement}</p>
+    <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
   </div>
   <div class="container-wide">
     <div class="method-steps">
@@ -15,8 +16,8 @@ import { site } from '../data/site';
           <article class="method-step reveal" style={`transition-delay: ${i * 80}ms`}>
             <span class="method-num">{String(i + 1).padStart(2, '0')}</span>
             <h3 class="method-title">{s.title}</h3>
-            <p class="method-blurb">{s.blurb}</p>
-            <p class="method-proof">{s.proof}</p>
+            <p class="method-blurb">{parseMarks(s.blurb).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
+            <p class="method-proof">{parseMarks(s.proof).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
           </article>
         ))
       }

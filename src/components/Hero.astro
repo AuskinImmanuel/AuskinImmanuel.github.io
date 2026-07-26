@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import { parseMarks } from '../lib/markup';
 import VoiceOrb from './VoiceOrb.astro';
 ---
 
@@ -8,7 +9,7 @@ import VoiceOrb from './VoiceOrb.astro';
     <div class="hero-copy">
       <span class="badge reveal">{site.hero.badge}</span>
       <h1 class="display reveal" style="transition-delay: 80ms">{site.hero.headline}</h1>
-      <p class="hero-sub reveal" style="transition-delay: 160ms">{site.hero.sub}</p>
+      <p class="hero-sub reveal" style="transition-delay: 160ms">{parseMarks(site.hero.sub).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
       <div class="hero-ctas reveal" style="transition-delay: 240ms">
         {
           site.hero.ctas.map((c) =>

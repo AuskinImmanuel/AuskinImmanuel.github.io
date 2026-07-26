@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import { parseMarks } from '../lib/markup';
 ---
 
 <section id="experience" class="experience">
@@ -16,7 +17,7 @@ import { site } from '../data/site';
               <span class="exp-time">{e.time}</span>
             </div>
             <p class="exp-company">{e.company}</p>
-            <p class="exp-blurb">{e.blurb}</p>
+            <p class="exp-blurb">{parseMarks(e.blurb).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
             {e.chips && (
               <div class="exp-chips">
                 {e.chips.map((c) => (

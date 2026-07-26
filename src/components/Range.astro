@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import { parseMarks } from '../lib/markup';
 ---
 
 <section id="range" class="range">
@@ -11,7 +12,7 @@ import { site } from '../data/site';
         site.range.pillars.map((p, i) => (
           <article class="card pillar reveal" style={`transition-delay: ${i * 60}ms`}>
             <h3 class="pillar-title">{p.title}</h3>
-            <p class="pillar-blurb">{p.blurb}</p>
+            <p class="pillar-blurb">{parseMarks(p.blurb).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
             <div class="pillar-pills">
               {p.pills.map((s) => (
                 <span class="pill">{s}</span>

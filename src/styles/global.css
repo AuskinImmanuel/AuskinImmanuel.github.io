@@ -254,6 +254,12 @@ button:focus-visible {
   background-color: color-mix(in srgb, var(--green) 16%, transparent);
 }
 
+.em-acc {
+  color: var(--accent);
+  font-weight: 600;
+  font-style: normal;
+}
+
 .pill {
   display: inline-block;
   padding: 4px 12px;
@@ -292,7 +298,7 @@ button:focus-visible {
     color-mix(in srgb, #a8c8e8 9%, transparent) 45%,
     transparent 70%
   );
-  animation: atmo-drift-a 70s ease-in-out infinite alternate;
+  animation: atmo-drift-a 52s ease-in-out infinite alternate;
 }
 
 .atmo-b {
@@ -303,7 +309,7 @@ button:focus-visible {
     color-mix(in srgb, #c8b8e0 10%, transparent) 0%,
     transparent 68%
   );
-  animation: atmo-drift-b 90s ease-in-out infinite alternate;
+  animation: atmo-drift-b 64s ease-in-out infinite alternate;
 }
 
 .atmo-c {
@@ -315,7 +321,7 @@ button:focus-visible {
     color-mix(in srgb, #c8b8e0 7%, transparent) 50%,
     transparent 72%
   );
-  animation: atmo-drift-c 80s ease-in-out infinite alternate;
+  animation: atmo-drift-c 58s ease-in-out infinite alternate;
 }
 
 :root[data-theme='dark'] .atmo-a {
@@ -345,29 +351,47 @@ button:focus-visible {
 }
 
 @keyframes atmo-drift-a {
-  from {
+  0% {
     transform: translate(0, 0) scale(1);
   }
-  to {
-    transform: translate(-6vmax, 5vmax) scale(1.12);
+  33% {
+    transform: translate(-9vmax, 7vmax) scale(1.16);
+  }
+  66% {
+    transform: translate(-3vmax, 12vmax) scale(1.04);
+  }
+  100% {
+    transform: translate(-12vmax, 3vmax) scale(1.2);
   }
 }
 
 @keyframes atmo-drift-b {
-  from {
+  0% {
     transform: translate(0, 0) scale(1);
   }
-  to {
-    transform: translate(7vmax, -4vmax) scale(1.08);
+  40% {
+    transform: translate(9vmax, -7vmax) scale(1.12);
+  }
+  70% {
+    transform: translate(13vmax, 2vmax) scale(1.02);
+  }
+  100% {
+    transform: translate(5vmax, -10vmax) scale(1.14);
   }
 }
 
 @keyframes atmo-drift-c {
-  from {
-    transform: translate(0, 0) scale(1.05);
+  0% {
+    transform: translate(0, 0) scale(1.06);
   }
-  to {
-    transform: translate(-5vmax, -6vmax) scale(1);
+  35% {
+    transform: translate(-7vmax, -8vmax) scale(1);
+  }
+  70% {
+    transform: translate(-11vmax, -2vmax) scale(1.12);
+  }
+  100% {
+    transform: translate(-4vmax, -11vmax) scale(1.02);
   }
 }
 
