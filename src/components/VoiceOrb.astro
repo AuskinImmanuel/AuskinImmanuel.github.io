@@ -629,6 +629,10 @@ void main() {
             // Lia scrolls the page to what she's talking about
             show_section: async (params: { section?: string }) => {
               const id = params && params.section ? String(params.section) : '';
+              if (id === 'top') {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                return 'scrolled to top';
+              }
               const el = document.getElementById(id);
               if (el) {
                 el.scrollIntoView({ behavior: 'smooth', block: 'start' });
