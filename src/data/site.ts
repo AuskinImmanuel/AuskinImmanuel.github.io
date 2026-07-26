@@ -93,6 +93,29 @@ export const site = {
     ],
   },
 
+  habits: {
+    label: "How I learn",
+    intro:
+      "The meta-skill underneath the method: I find the gaps in my own understanding fast, and close them faster.",
+    items: [
+      {
+        title: "Research until it clicks",
+        blurb:
+          "Before a build or a big call, I map what I don't know and run deep research on it. Ground truth first, opinions second.",
+      },
+      {
+        title: "Listen in parallel",
+        blurb:
+          "I turn the research into audio briefings and listen while I move. Long-form learning runs in the background of my day.",
+      },
+      {
+        title: "Build with Claude Code",
+        blurb:
+          "Ideas become working tools the same day: internal utilities, prototypes, this site, and ‹Lia, the agent living in the orb up top›. I set the same tooling up for my whole prompting team.",
+      },
+    ],
+  },
+
   caseStudies: [
     {
       title: "A California health-insurance payer",

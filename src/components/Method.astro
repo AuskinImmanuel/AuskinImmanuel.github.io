@@ -22,6 +22,22 @@ import { parseMarks } from '../lib/markup';
         ))
       }
     </div>
+    <div class="habits">
+      <h3 class="habits-label reveal">{site.habits.label}</h3>
+      <p class="habits-intro reveal">{site.habits.intro}</p>
+      <div class="habits-grid">
+        {
+          site.habits.items.map((h, i) => (
+            <div class="habit reveal" style={`transition-delay: ${i * 80}ms`}>
+              <h4 class="habit-title">{h.title}</h4>
+              <p class="habit-blurb">
+                {parseMarks(h.blurb).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   </div>
 </section>
 
@@ -92,7 +108,43 @@ import { parseMarks } from '../lib/markup';
     border-left: 2px solid var(--accent);
     padding-left: 10px;
   }
+  .habits {
+    margin-top: 88px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+  .habits-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .habits-intro {
+    margin-top: 14px;
+    font-size: 1.05rem;
+    max-width: 56ch;
+  }
+  .habits-grid {
+    margin-top: 36px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .habit-title {
+    font-size: 1.05rem;
+  }
+  .habit-blurb {
+    margin-top: 10px;
+    font-size: 0.93rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
   @media (max-width: 900px) {
+    .habits-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
     .method-steps {
       grid-template-columns: 1fr 1fr;
       row-gap: 44px;

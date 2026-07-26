@@ -516,7 +516,7 @@ void main() {
       setLabel(
         label ??
           (next === 'idle'
-            ? 'Talk to my agent'
+            ? 'Talk to Lia'
             : next === 'connecting'
               ? 'Connecting...'
               : 'Live · tap to end')
@@ -532,7 +532,7 @@ void main() {
       clearWatchdog();
       setState('idle', label);
       setTimeout(() => {
-        if (state === 'idle') setLabel('Talk to my agent');
+        if (state === 'idle') setLabel('Talk to Lia');
       }, 2600);
     }
 
