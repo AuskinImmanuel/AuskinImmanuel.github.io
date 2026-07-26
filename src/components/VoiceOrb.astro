@@ -333,8 +333,8 @@ void main() {
       const dark = document.documentElement.getAttribute('data-theme') === 'dark';
       gl.uniform1f(uInverted, dark ? 1 : 0);
       if (dark) {
-        gl.uniform3f(uColor1, 0.239, 0.498, 0.839); /* #3d7fd6 rich blue */
-        gl.uniform3f(uColor2, 0.557, 0.761, 0.949); /* #8ec2f2 sky */
+        gl.uniform3f(uColor1, 0.227, 0.635, 0.769); /* #3aa2c4 teal-blue */
+        gl.uniform3f(uColor2, 0.647, 0.894, 0.878); /* #a5e4e0 light teal */
       } else {
         /* deeper pair so the orb reads bright on white */
         gl.uniform3f(uColor1, 0.435, 0.647, 0.878); /* #6fa5e0 */
