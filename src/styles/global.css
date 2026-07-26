@@ -263,6 +263,114 @@ button:focus-visible {
   color: var(--text-muted);
 }
 
+/* ===================== Ambient background ===================== */
+/* Soft color washes behind the whole page. Barely-there in light mode,
+   a quiet glow in dark. Fixed, so the color breathes as you scroll. */
+.page-atmo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.page-atmo-blob {
+  position: absolute;
+  width: 60vmax;
+  height: 60vmax;
+  border-radius: 50%;
+  filter: blur(80px);
+  will-change: transform;
+}
+
+.atmo-a {
+  top: -22vmax;
+  right: -14vmax;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, #a7e5d3 11%, transparent) 0%,
+    color-mix(in srgb, #a8c8e8 9%, transparent) 45%,
+    transparent 70%
+  );
+  animation: atmo-drift-a 70s ease-in-out infinite alternate;
+}
+
+.atmo-b {
+  top: 28%;
+  left: -26vmax;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, #c8b8e0 10%, transparent) 0%,
+    transparent 68%
+  );
+  animation: atmo-drift-b 90s ease-in-out infinite alternate;
+}
+
+.atmo-c {
+  bottom: -24vmax;
+  right: -10vmax;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, #f4c5a8 9%, transparent) 0%,
+    color-mix(in srgb, #c8b8e0 7%, transparent) 50%,
+    transparent 72%
+  );
+  animation: atmo-drift-c 80s ease-in-out infinite alternate;
+}
+
+:root[data-theme='dark'] .atmo-a {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, #a7e5d3 20%, transparent) 0%,
+    color-mix(in srgb, #a8c8e8 16%, transparent) 45%,
+    transparent 70%
+  );
+}
+
+:root[data-theme='dark'] .atmo-b {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, #c8b8e0 18%, transparent) 0%,
+    transparent 68%
+  );
+}
+
+:root[data-theme='dark'] .atmo-c {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, #f4c5a8 16%, transparent) 0%,
+    color-mix(in srgb, #2997ff 11%, transparent) 55%,
+    transparent 75%
+  );
+}
+
+@keyframes atmo-drift-a {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(-6vmax, 5vmax) scale(1.12);
+  }
+}
+
+@keyframes atmo-drift-b {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    transform: translate(7vmax, -4vmax) scale(1.08);
+  }
+}
+
+@keyframes atmo-drift-c {
+  from {
+    transform: translate(0, 0) scale(1.05);
+  }
+  to {
+    transform: translate(-5vmax, -6vmax) scale(1);
+  }
+}
+
 /* ===================== Marquee ===================== */
 @keyframes marquee-scroll {
   from {

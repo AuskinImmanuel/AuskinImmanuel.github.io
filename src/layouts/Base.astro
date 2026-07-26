@@ -60,6 +60,11 @@ const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : un
     </script>
   </head>
   <body>
+    <div class="page-atmo" aria-hidden="true">
+      <div class="page-atmo-blob atmo-a"></div>
+      <div class="page-atmo-blob atmo-b"></div>
+      <div class="page-atmo-blob atmo-c"></div>
+    </div>
     <slot />
     <script is:inline>
       (function () {
