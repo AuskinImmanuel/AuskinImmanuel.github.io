@@ -5,7 +5,10 @@ import ThemeToggle from './ThemeToggle.astro';
 
 <nav class="nav">
   <div class="container-wide nav-inner">
-    <a href="#top" class="nav-name">{site.name}</a>
+    <a href="#top" class="nav-name">
+      <img class="nav-mark" src="/favicon.svg" alt="" width="24" height="24" />
+      {site.name}
+    </a>
     <div class="nav-links">
       <a href="#method" data-navlink>How I work</a>
       <a href="#work" data-navlink>Work</a>
@@ -35,9 +38,18 @@ import ThemeToggle from './ThemeToggle.astro';
     height: 54px;
   }
   .nav-name {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     font-weight: 600;
     font-size: 15px;
     letter-spacing: -0.01em;
+  }
+  .nav-mark {
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
+    display: block;
   }
   .nav-links {
     display: flex;
