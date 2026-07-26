@@ -284,6 +284,7 @@ export const site = {
   contact: {
     headline: "Building something with voice? Let's talk.",
     email: "auskinimmanuel@gmail.com",
+    phone: "+91 90035 43634",
     linkedin: "https://www.linkedin.com/in/auskin-immanuel/",
     github: "https://github.com/AuskinImmanuel",
   },
