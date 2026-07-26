@@ -625,6 +625,18 @@ void main() {
         const conversation = await mod.Conversation.startSession({
           agentId: AGENT_ID,
           connectionType: IS_SAFARI ? 'webrtc' : 'websocket',
+          clientTools: {
+            // Lia scrolls the page to what she's talking about
+            show_section: async (params: { section?: string }) => {
+              const id = params && params.section ? String(params.section) : '';
+              const el = document.getElementById(id);
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                return 'scrolled to ' + id;
+              }
+              return 'section not found';
+            },
+          },
           onStatusChange: (s: { status: string }) => {
             if (gen !== myGen) return;
             if (s.status === 'connected') {
