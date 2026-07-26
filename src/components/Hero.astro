@@ -38,8 +38,16 @@ import VoiceOrb from './VoiceOrb.astro';
         }
       </div>
     </div>
-    <div class="hero-visual reveal" style="transition-delay: 200ms">
-      <VoiceOrb />
+    <div class="hero-visual">
+      <div class="hero-visual-inner reveal" style="transition-delay: 200ms">
+        <VoiceOrb />
+      </div>
+      <button class="orb-talk" id="orb-talk" type="button" aria-label="Talk to Auskin's voice agent">
+        Talk to my agent
+      </button>
+      <p class="orb-note" id="orb-note" hidden>
+        Voice chat with an AI agent Auskin built. Conversations may be recorded.
+      </p>
     </div>
   </div>
 </header>
@@ -100,6 +108,60 @@ import VoiceOrb from './VoiceOrb.astro';
     font-size: 0.84rem;
     color: var(--text-muted);
   }
+  /* The talk button lives OUTSIDE any transformed/faded/reveal element so
+     its mobile fixed positioning never gets trapped in a stacking context. */
+  .hero-visual {
+    position: relative;
+  }
+  .orb-talk {
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    transform: translateX(-50%);
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 36px;
+    padding: 0 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-pill);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+  }
+  .orb-talk:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    transform: translateX(-50%) translateY(-1px);
+  }
+  .orb-talk.is-live {
+    border-color: var(--green);
+  }
+  .orb-talk.is-live::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+  }
+  .orb-note {
+    position: absolute;
+    left: 50%;
+    bottom: -26px;
+    transform: translateX(-50%);
+    z-index: 5;
+    width: max-content;
+    max-width: 90%;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+  }
   @media (max-width: 900px) {
     .hero {
       padding: 104px 0 64px;
@@ -109,12 +171,40 @@ import VoiceOrb from './VoiceOrb.astro';
       gap: 0;
     }
     .hero-visual {
+      position: static;
+    }
+    .hero-visual-inner {
       position: absolute;
       top: 12px;
       right: -100px;
       width: 320px;
       opacity: 0.4;
       z-index: -1;
+    }
+    .orb-talk {
+      position: fixed;
+      left: auto;
+      right: 18px;
+      bottom: 18px;
+      transform: none;
+      z-index: 90;
+      height: 42px;
+      padding: 0 20px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.14);
+    }
+    .orb-talk:hover {
+      transform: none;
+    }
+    .orb-note {
+      position: fixed;
+      left: auto;
+      right: 18px;
+      bottom: 64px;
+      transform: none;
+      z-index: 90;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      padding: 4px 10px;
+      border-radius: 8px;
     }
   }
 </style>
