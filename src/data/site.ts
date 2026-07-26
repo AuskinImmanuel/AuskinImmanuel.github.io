@@ -28,6 +28,8 @@ export const site = {
     "care-gap outreach",
     "40-scenario call routing",
     "eval-gated releases",
+    "success criteria before build",
+    "phased go-lives",
     "HIPAA-aware design",
     "multi-LLM A/B testing",
   ],
@@ -73,7 +75,7 @@ export const site = {
       {
         title: "Design",
         blurb:
-          "Scenario maps, transfer rules, tool contracts, prompt architecture. The agent exists on paper, agreed with the customer, before it says a word.",
+          "Scenario maps, transfer rules, tool contracts, prompt architecture, and the success criteria the release will be judged on. The agent exists on paper, agreed with the customer, before it says a word.",
         proof: "911 and red-flag safety routing from day one",
       },
       {
@@ -151,8 +153,8 @@ export const site = {
       {
         title: "Forward-deployment strategist",
         blurb:
-          "From the first client workshop to a live pilot. I embed with the customer's team and build from their ground truth.",
-        pills: ["Customer discovery", "Scoping", "Pilot design"],
+          "From the first client workshop to a live pilot. I embed with the customer's team, scope the engagement, and set what success means before the build starts.",
+        pills: ["Customer discovery", "Engagement scoping", "Success criteria"],
       },
       {
         title: "Voice AI expert",
@@ -164,7 +166,7 @@ export const site = {
         title: "Customer-facing operator",
         blurb:
           "SDR, then CSM, then PM. I've been the person on the call at every stage, and I still run the customer meetings for my agents.",
-        pills: ["Discovery calls", "Demos", "Escalations"],
+        pills: ["Discovery calls", "Demos", "Onboarding", "Escalations"],
       },
       {
         title: "Close to engineering",
@@ -187,7 +189,7 @@ export const site = {
       company: "VoxyHealth",
       time: "Aug 2025 - Present",
       blurb:
-        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, live pilot calls, and the specs engineering builds against. Shipped 30+ production agents on ElevenLabs across 6 enterprise clients.",
+        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. Shipped 30+ production agents on ElevenLabs across 6 enterprise clients.",
       chips: ["30+ agents", "10-20% to 60-70% containment"],
     },
     {
@@ -195,7 +197,7 @@ export const site = {
       company: "Klenty",
       time: "Jan 2025 - Jul 2025",
       blurb:
-        "Owned customer success for two AI products: SchedX, an inbound AI voice platform, and SDRx, an AI SDR for email, LinkedIn, and calling. The main bridge between customers and the product and engineering teams.",
+        "Owned customer success for two AI products: SchedX, an inbound AI voice platform, and SDRx, an AI SDR for email, LinkedIn, and calling. Onboarded and implemented clients across four verticals and four CRMs (HubSpot, Salesforce, Zoho, Pipedrive); the main bridge between customers and the product and engineering teams.",
     },
     {
       role: "Sales Development Representative",
