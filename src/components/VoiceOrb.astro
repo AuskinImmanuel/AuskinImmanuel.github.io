@@ -336,9 +336,9 @@ void main() {
         gl.uniform3f(uColor1, 0.227, 0.635, 0.769); /* #3aa2c4 teal-blue */
         gl.uniform3f(uColor2, 0.647, 0.894, 0.878); /* #a5e4e0 light teal */
       } else {
-        /* deeper pair so the orb reads bright on white */
-        gl.uniform3f(uColor1, 0.435, 0.647, 0.878); /* #6fa5e0 */
-        gl.uniform3f(uColor2, 0.482, 0.816, 0.702); /* #7bd0b3 */
+        /* saturated teal pair so the orb pops on the off-white canvas */
+        gl.uniform3f(uColor1, 0.122, 0.561, 0.722); /* #1f8fb8 deep teal */
+        gl.uniform3f(uColor2, 0.435, 0.816, 0.847); /* #6fd0d8 light teal */
       }
     };
     setInverted();

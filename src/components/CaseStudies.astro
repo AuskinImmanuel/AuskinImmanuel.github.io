@@ -235,7 +235,7 @@ import { parseMarks } from '../lib/markup';
     background:
       radial-gradient(circle at 85% 110%, var(--atmo-sky) 0%, transparent 55%),
       radial-gradient(circle at 10% -10%, var(--atmo-mint) 0%, transparent 45%),
-      var(--bg);
+      var(--surface);
   }
   .study-title {
     margin-top: 20px;
@@ -296,7 +296,7 @@ import { parseMarks } from '../lib/markup';
     flex: 1;
     height: 6px;
     border-radius: var(--radius-pill);
-    background: var(--bg-secondary);
+    background: color-mix(in srgb, var(--text) 10%, transparent);
     overflow: hidden;
   }
   .study-bar-fill {

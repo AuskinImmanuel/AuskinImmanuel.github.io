@@ -1,7 +1,8 @@
 /* ===================== Design tokens ===================== */
 :root {
-  --bg: #ffffff;
-  --bg-secondary: #f5f5f7;
+  --bg: #f5f5f7;
+  --bg-secondary: #ffffff;
+  --surface: #ffffff;
   --text: #1d1d1f;
   --text-muted: #6e6e73;
   --border: #d2d2d7;
@@ -30,6 +31,7 @@
 :root[data-theme="dark"] {
   --bg: #000000;
   --bg-secondary: #1d1d1f;
+  --surface: #000000;
   --text: #f5f5f7;
   --text-muted: #a1a1a6;
   --border: #424245;
@@ -229,7 +231,7 @@ button:focus-visible {
   border: 1px solid var(--border);
   border-radius: var(--radius-card);
   padding: 34px;
-  background: var(--bg);
+  background: var(--surface);
   transition: transform 0.25s var(--ease), border-color 0.25s var(--ease),
     box-shadow 0.25s var(--ease), background-color 0.4s var(--ease);
 }
