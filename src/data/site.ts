@@ -2,12 +2,12 @@
 
 export const site = {
   name: "Auskin Immanuel",
-  tagline: "Forward deployed product manager. I deploy voice AI where it's hardest: healthcare phone lines.",
+  tagline: "Forward deployed product manager. I deploy voice AI where it's hardest, healthcare phone lines, and I answer for the outcomes.",
 
   hero: {
     badge: "Forward Deployed PM · Voice AI on ElevenLabs",
     headline: "I deploy voice AI where it's hardest.",
-    sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: ‹pull their real call recordings›, catalogue what actually happens on their lines, then build the agents and ‹iterate on live traffic› until the numbers hold.",
+    sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: ‹pull their real call recordings›, catalogue what actually happens on their lines, then build the agents and ‹iterate on live traffic› until the outcomes hold and the numbers prove it.",
     metrics: [
       { value: "30+", label: "production agents" },
       { value: "6", label: "enterprise healthcare clients" },
@@ -29,7 +29,10 @@ export const site = {
     "40-scenario call routing",
     "eval-gated releases",
     "success criteria before build",
+    "gap-to-fix diagnosis",
+    "first demo in a day",
     "phased go-lives",
+    "measured outcomes",
     "HIPAA-aware design",
     "multi-LLM A/B testing",
   ],
@@ -64,7 +67,7 @@ export const site = {
 
   method: {
     statement:
-      "I started in sales development, moved into customer success owning two AI products, then moved into product to build the agent side itself. ‹Selling AI, implementing AI, building AI.› That arc is why my agents work: I've sat on every side of the table they get deployed at.",
+      "I started in sales development, moved into customer success owning two AI products, then moved into product to build the agent side itself. ‹Selling AI, implementing AI, building AI.› That arc is why my agents work: I've sat on every side of the table they get deployed at. And inside all three, the job I keep choosing is the same one: ‹read how a live system performs, diagnose the gap, architect the fix, prove the outcome›.",
     steps: [
       {
         title: "Embed",
@@ -87,7 +90,7 @@ export const site = {
       {
         title: "Operate",
         blurb:
-          "Live traffic is the real eval. I classify call outcomes, read the transcripts, and turn every failure class into a fix or a spec for engineering.",
+          "Live traffic is the real eval. I read the transcripts and diagnose every gap into one of four buckets: prompt issue, design issue, platform debt, or something that shouldn't be automated at all. Each bucket gets a different fix, and fixing the wrong bucket is how teams burn weeks.",
         proof: "28k calls analyzed, 268 hand-labelled",
       },
     ],
@@ -121,7 +124,7 @@ export const site = {
       title: "A California health-insurance payer",
       badge: "Payor side · 5 lines",
       blurb:
-        "My deepest payor relationship: one California health plan, a whole family of agent lines built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran four LLMs live in parallel on this line against a single rubric; a model earns its slot on data, not on feel.",
+        "My deepest payor relationship: one California health plan, a whole family of agent lines built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran four LLMs live in parallel on this line against a single rubric; a model earns its slot on data, not on feel. And the results compounded: ‹what started as one claims line is now a five-line family› with the same customer.",
       stat: "10-20% to 60-70%",
       statLabel: "fully-AI-handled containment, best cuts",
       hero: true,
@@ -138,7 +141,7 @@ export const site = {
       title: "Multi-location orthopedic operator",
       badge: "Inbound",
       blurb:
-        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I catalogued «54 real call types» into about 40 scenarios with named transfer rules and safety routing, then placed live pilot calls on the real integration myself: four calls turned into ‹five fix commits and a validation spec for engineering› within two days.",
+        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I catalogued «54 real call types» into about 40 scenarios with named transfer rules and safety routing, then placed live pilot calls on the real integration myself: four calls turned into ‹five fix commits and a validation spec for engineering› within two days. And after the inbound work proved out in our business reviews, the group ‹commissioned an outbound appointment-reminder campaign›. Delivery that earns the next engagement.",
       stat: "40",
       statLabel: "scenarios, one agent",
       art: "graph",
@@ -147,7 +150,7 @@ export const site = {
       title: "Care-gap outreach platform",
       badge: "Outbound",
       blurb:
-        "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. A ‹3-layer prompt architecture› runs «five care gaps» per patient under a single master agent, with clean AI-to-human coordinator handoffs.",
+        "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. A ‹3-layer prompt architecture› runs «five care gaps» per patient under a single master agent, with clean AI-to-human coordinator handoffs. And one trade-off I'm proud of: when AI-to-pharmacy verification calls didn't belong, ‹I removed the feature› in favor of a human check. Some loops belong with humans.",
       stat: "5",
       statLabel: "care gaps, one master agent",
       art: "gaps",
@@ -168,16 +171,16 @@ export const site = {
     intro: "Six jobs, one operator.",
     pillars: [
       {
+        title: "Forward-deployment strategist",
+        blurb:
+          "From the first client workshop to a live pilot, and past it. I embed with the customer's team, scope the engagement, set what success means before the build starts, and after go-live I ‹read the system's performance, find the gaps, and architect what closes them›.",
+        pills: ["Gap diagnosis", "Engagement scoping", "Success criteria"],
+      },
+      {
         title: "AI product manager",
         blurb:
           "I own the agent roadmap: what we build, what good means, and the eval rubric that proves it. I built the team's evaluation framework, and ‹eval pass-rate is the release gate›.",
         pills: ["Product management", "Eval design", "A/B testing"],
-      },
-      {
-        title: "Forward-deployment strategist",
-        blurb:
-          "From the first client workshop to a live pilot. I embed with the customer's team, scope the engagement, and set what success means before the build starts.",
-        pills: ["Customer discovery", "Engagement scoping", "Success criteria"],
       },
       {
         title: "Voice AI expert",
@@ -188,8 +191,8 @@ export const site = {
       {
         title: "Customer-facing operator",
         blurb:
-          "SDR, then CSM, then PM. I've been the person on the call at every stage, and I still run the customer meetings for my agents.",
-        pills: ["Discovery calls", "Demos", "Onboarding", "Escalations"],
+          "SDR, then CSM, then PM. I've been the person on the call at every stage, and I still run the customer meetings and business reviews for my agents.",
+        pills: ["Discovery calls", "Demos", "Onboarding", "Business reviews"],
       },
       {
         title: "Close to engineering",
@@ -212,7 +215,7 @@ export const site = {
       company: "VoxyHealth",
       time: "Aug 2025 - Present",
       blurb:
-        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. Shipped 30+ production agents on ElevenLabs across 6 enterprise clients, running about «3,500 calls a day» as a fleet. I also mentor a small prompting pod: one prompt engineer, two interns.",
+        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. The loop runs diagnosis to measured outcome. Shipped 30+ production agents on ElevenLabs across 6 enterprise clients, running about «3,500 calls a day» as a fleet. I also mentor a small prompting pod: one prompt engineer, two interns.",
       chips: ["30+ agents", "10-20% to 60-70% containment"],
     },
     {
