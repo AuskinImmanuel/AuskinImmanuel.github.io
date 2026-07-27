@@ -9,7 +9,7 @@ export const site = {
     headline: "I deploy voice AI where it's hardest.",
     sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: ‹pull their real call recordings›, catalogue what's on their lines, then build the agents and ‹iterate on live traffic› until the numbers prove it.",
     metrics: [
-      { value: "30+", label: "production agents" },
+      { value: "30+", label: "agents built, 20 live in production" },
       { value: "6", label: "enterprise healthcare clients" },
       { value: "~3,500", label: "calls a day across the fleet" },
       { value: "60-70%", label: "containment on best cuts, up from 10-20%" },
@@ -71,7 +71,7 @@ export const site = {
         title: "Embed",
         blurb:
           "I start inside the customer's world: their ops team, their call recordings, their real day. What actually happens on the line, not what the spec says happens.",
-        proof: "«54 real call types» catalogued from about 10,000 calls for one operator agent",
+        proof: "«3,298 real calls» classified in three days into 54 call types for one operator agent",
       },
       {
         title: "Design",
@@ -83,13 +83,13 @@ export const site = {
         title: "Ship",
         blurb:
           "Eval-gated releases, multi-LLM A/B tests, and pilot calls I place myself against the real integration before anything goes live.",
-        proof: "«about 15 agents» stood up in one four-week window",
+        proof: "«about one new agent a week» stood up, sustained March through July",
       },
       {
         title: "Operate",
         blurb:
           "Live traffic is the real eval. I read the transcripts and sort every gap into one of four buckets: prompt issue, design issue, platform debt, or something that shouldn't be automated at all. Each bucket gets a different fix, and fixing the wrong bucket is how teams burn weeks.",
-        proof: "«28k calls» analyzed across one payer fleet, 268 hand-labelled",
+        proof: "a «daily ground-truth pipeline» grades every claims call; 268 hand-labelled for one ROI report",
       },
     ],
   },
@@ -117,7 +117,7 @@ export const site = {
       title: "A California health-insurance payer",
       badge: "Payer side · 5 lines",
       blurb:
-        "My deepest payer relationship: one California health plan and a whole family of agent lines, built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran four LLMs live in parallel on this line against a single rubric; a model earns its slot on data, not on feel. ‹What started as one claims line is now a five-line family›.",
+        "My deepest payer relationship: one California health plan and a whole family of agent lines, built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran five LLMs live in parallel on this line against a single rubric; a model earns its slot on data, not on feel. On the sibling prior-auth line, between two production reports a month apart, ‹first-attempt resolution rose from 81.2% to 98.5%› while average handle time fell 32%. ‹What started as one claims line is now a five-line family›.",
       stat: "10-20% to 60-70%",
       statLabel: "fully-AI-handled containment, best cuts",
       hero: true,
@@ -134,7 +134,7 @@ export const site = {
       title: "Multi-location orthopedic operator",
       badge: "Inbound",
       blurb:
-        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I catalogued «54 real call types» into about 40 scenarios with named transfer rules and safety routing. Then I placed pilot calls on the real integration myself: four calls turned into ‹five fix commits and a validation spec for engineering› within two days. After the inbound work proved out in our business reviews, the group ‹commissioned an outbound appointment-reminder campaign›.",
+        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I classified «3,298 of their real calls» into 54 call types, then about 40 scenarios with named transfer rules and safety routing. Then I placed pilot calls on the real integration myself: four calls turned into ‹five fix commits and a validation spec for engineering› within two days. After the inbound work proved out in our business reviews, the group ‹commissioned an outbound appointment-reminder campaign›.",
       stat: "40",
       statLabel: "scenarios, one agent",
       art: "graph",
@@ -172,13 +172,13 @@ export const site = {
       {
         title: "AI product manager",
         blurb:
-          "I own the agent roadmap: what we build, what good means, and the rubric that proves it. I built the team's evaluation framework, and ‹eval pass-rate is the release gate›.",
+          "I own the agent roadmap: what we build, what good means, and the rubric that proves it. Success criteria are agreed before the build starts, and ‹eval pass-rate is the release gate›.",
         pills: ["Product management", "Eval design", "A/B testing"],
       },
       {
         title: "Voice AI expert",
         blurb:
-          "«30+ production agents» on ElevenLabs. Prompting architecture, model routing, latency budgets, bilingual support, and ‹speech discipline for small models›.",
+          "«30+ agents built» on ElevenLabs, 20 live in production. Prompting architecture, model routing, latency budgets, bilingual support, and ‹speech discipline for small models›.",
         pills: ["ElevenLabs", "Prompt engineering", "Multi-LLM routing"],
       },
       {
@@ -208,8 +208,8 @@ export const site = {
       company: "VoxyHealth",
       time: "Aug 2025 - Present",
       blurb:
-        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. I've shipped 30+ production agents on ElevenLabs across 6 enterprise clients, running about «3,500 calls a day» as a fleet, and I mentor a small prompting pod: one prompt engineer, two interns.",
-      chips: ["30+ agents", "10-20% to 60-70% on best cuts"],
+        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. I've built 30+ agents on ElevenLabs across 6 enterprise clients, 20 of them live in production running about «3,500 calls a day» as a fleet, and I mentor the team's two prompting interns.",
+      chips: ["30+ built, 20 live", "10-20% to 60-70% on best cuts"],
     },
     {
       role: "Customer Success Manager",
