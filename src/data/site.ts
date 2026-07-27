@@ -2,17 +2,17 @@
 
 export const site = {
   name: "Auskin Immanuel",
-  tagline: "Forward deployed product manager. I deploy voice AI where it's hardest, healthcare phone lines, and I answer for the outcomes.",
+  tagline: "Forward deployed product manager. I put voice AI on healthcare phone lines, where it's hardest, and answer for the outcomes.",
 
   hero: {
     badge: "Forward Deployed PM · Voice AI on ElevenLabs",
     headline: "I deploy voice AI where it's hardest.",
-    sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: ‹pull their real call recordings›, catalogue what actually happens on their lines, then build the agents and ‹iterate on live traffic› until the outcomes hold and the numbers prove it.",
+    sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: ‹pull their real call recordings›, catalogue what's on their lines, then build the agents and ‹iterate on live traffic› until the numbers prove it.",
     metrics: [
       { value: "30+", label: "production agents" },
       { value: "6", label: "enterprise healthcare clients" },
       { value: "~3,500", label: "calls a day across the fleet" },
-      { value: "60-70%", label: "containment, up from 10-20%" },
+      { value: "60-70%", label: "containment on best cuts, up from 10-20%" },
     ],
     ctas: [
       { label: "See the work", href: "#work", primary: true },
@@ -29,10 +29,8 @@ export const site = {
     "40-scenario call routing",
     "eval-gated releases",
     "success criteria before build",
-    "gap-to-fix diagnosis",
     "first demo in a day",
     "phased go-lives",
-    "measured outcomes",
     "HIPAA-aware design",
     "multi-LLM A/B testing",
   ],
@@ -47,13 +45,13 @@ export const site = {
     turns: [
       { who: "agent", text: "Thanks for calling. This is the clinic's virtual assistant. How can I help you today?" },
       { who: "caller", text: "Hi, I need to move my knee follow-up. I'm travelling next week." },
-      { who: "note", text: "scenario matched: reschedule · one card of about 40" },
+      { who: "note", text: "scenario matched: reschedule · 1 of about 40 scenario cards" },
       { who: "agent", text: "No problem, I can help with that. Can I get your first and last name?" },
       { who: "caller", text: "Miguel Torres." },
       { who: "agent", text: "Thanks, Miguel. And your date of birth?" },
       { who: "caller", text: "March 9th, 84." },
       { who: "note", text: "lookupPatient ✓ · verified against the live record" },
-      { who: "agent", text: "Found you. Your follow-up is Tuesday the 14th at 3:40 pm. When suits you better?" },
+      { who: "agent", text: "Found you. Your follow-up is Tuesday the 14th at 3:40 pm. What day works better for you?" },
       { who: "caller", text: "Friday morning, if you can." },
       { who: "note", text: "getSlots ✓ · 2 openings inside the caller's window" },
       { who: "agent", text: "I have Friday the 17th at 9:20 or 10:40 in the morning. Which works?" },
@@ -67,7 +65,7 @@ export const site = {
 
   method: {
     statement:
-      "I started in sales development, moved into customer success owning two AI products, then moved into product to build the agent side itself. ‹Selling AI, implementing AI, building AI.› That arc is why my agents work: I've sat on every side of the table they get deployed at. And inside all three, the job I keep choosing is the same one: ‹read how a live system performs, diagnose the gap, architect the fix, prove the outcome›.",
+      "I started in sales development, moved to customer success owning two AI products, then into product to build the agent side itself. ‹Selling AI, implementing AI, building AI.› That arc is why my agents work: I've sat on every side of the table where they land.",
     steps: [
       {
         title: "Embed",
@@ -84,14 +82,14 @@ export const site = {
       {
         title: "Ship",
         blurb:
-          "Eval-gated releases, multi-LLM A/B tests, and live pilot calls I place myself against the real integration before anything goes live.",
+          "Eval-gated releases, multi-LLM A/B tests, and pilot calls I place myself against the real integration before anything goes live.",
         proof: "«about 15 agents» stood up in one four-week window",
       },
       {
         title: "Operate",
         blurb:
-          "Live traffic is the real eval. I read the transcripts and diagnose every gap into one of four buckets: prompt issue, design issue, platform debt, or something that shouldn't be automated at all. Each bucket gets a different fix, and fixing the wrong bucket is how teams burn weeks.",
-        proof: "28k calls analyzed, 268 hand-labelled",
+          "Live traffic is the real eval. I read the transcripts and sort every gap into one of four buckets: prompt issue, design issue, platform debt, or something that shouldn't be automated at all. Each bucket gets a different fix, and fixing the wrong bucket is how teams burn weeks.",
+        proof: "«28k calls» analyzed across one payer fleet, 268 hand-labelled",
       },
     ],
   },
@@ -104,17 +102,12 @@ export const site = {
       {
         title: "Research until it clicks",
         blurb:
-          "Before a build or a big call, I map what I don't know and run deep research on it. Ground truth first, opinions second.",
-      },
-      {
-        title: "Listen in parallel",
-        blurb:
-          "I turn the research into audio briefings and listen while I move. Long-form learning runs in the background of my day.",
+          "Before a build or a big call, I map what I don't know and run deep research on it, then turn it into audio briefings that run in the background of my day. Ground truth first, opinions second.",
       },
       {
         title: "Build with Claude Code",
         blurb:
-          "Ideas become working tools the same day: internal utilities, prototypes, this site, and ‹Lia, the agent living in the orb up top›. I set the same tooling up for my whole prompting team.",
+          "Ideas become working tools the same day: internal utilities, prototypes, this site, and ‹Lia, the agent living in the orb up top›. I set that tooling up for my whole prompting team.",
       },
     ],
   },
@@ -122,9 +115,9 @@ export const site = {
   caseStudies: [
     {
       title: "A California health-insurance payer",
-      badge: "Payor side · 5 lines",
+      badge: "Payer side · 5 lines",
       blurb:
-        "My deepest payor relationship: one California health plan, a whole family of agent lines built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran four LLMs live in parallel on this line against a single rubric; a model earns its slot on data, not on feel. And the results compounded: ‹what started as one claims line is now a five-line family› with the same customer.",
+        "My deepest payer relationship: one California health plan and a whole family of agent lines, built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran four LLMs live in parallel on this line against a single rubric; a model earns its slot on data, not on feel. ‹What started as one claims line is now a five-line family›.",
       stat: "10-20% to 60-70%",
       statLabel: "fully-AI-handled containment, best cuts",
       hero: true,
@@ -141,7 +134,7 @@ export const site = {
       title: "Multi-location orthopedic operator",
       badge: "Inbound",
       blurb:
-        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I catalogued «54 real call types» into about 40 scenarios with named transfer rules and safety routing, then placed live pilot calls on the real integration myself: four calls turned into ‹five fix commits and a validation spec for engineering› within two days. And after the inbound work proved out in our business reviews, the group ‹commissioned an outbound appointment-reminder campaign›. Delivery that earns the next engagement.",
+        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I catalogued «54 real call types» into about 40 scenarios with named transfer rules and safety routing. Then I placed pilot calls on the real integration myself: four calls turned into ‹five fix commits and a validation spec for engineering› within two days. After the inbound work proved out in our business reviews, the group ‹commissioned an outbound appointment-reminder campaign›.",
       stat: "40",
       statLabel: "scenarios, one agent",
       art: "graph",
@@ -150,7 +143,7 @@ export const site = {
       title: "Care-gap outreach platform",
       badge: "Outbound",
       blurb:
-        "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. A ‹3-layer prompt architecture› runs «five care gaps» per patient under a single master agent, with clean AI-to-human coordinator handoffs. And one trade-off I'm proud of: when AI-to-pharmacy verification calls didn't belong, ‹I removed the feature› in favor of a human check. Some loops belong with humans.",
+        "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. A ‹3-layer prompt architecture› runs «five care gaps» per patient under a single master agent, with clean AI-to-human coordinator handoffs. One trade-off I'm proud of: a wrong automated answer on medication checks costs patient trust, so ‹I removed the AI-to-pharmacy calls› in favor of a human check. Some loops belong with humans.",
       stat: "5",
       statLabel: "care gaps, one master agent",
       art: "gaps",
@@ -159,7 +152,7 @@ export const site = {
       title: "Fleet small-model migration",
       badge: "Architecture",
       blurb:
-        "Moved «about nine production agents» to a small, fast model in four weeks. The unlock is prompt architecture: ‹a lean base prompt plus one card per scenario›, with a single trailing guardrails block.",
+        "Moved «about nine production agents» to a small, fast model in four weeks. The unlock is prompt architecture: ‹a lean base prompt plus one card per scenario›, with a single trailing guardrails block. The token drop is what buys a live phone call its latency.",
       stat: "20K to 6.4K",
       statLabel: "tokens per turn",
       wide: true,
@@ -173,13 +166,13 @@ export const site = {
       {
         title: "Forward-deployment strategist",
         blurb:
-          "From the first client workshop to a live pilot, and past it. I embed with the customer's team, scope the engagement, set what success means before the build starts, and after go-live I ‹read the system's performance, find the gaps, and architect what closes them›.",
+          "From the first client workshop to a live pilot, and past it. I embed with the customer's team, scope the engagement, and set what success means before the build starts. After go-live I ‹read how the system performs, diagnose the gap, architect the fix, and prove the outcome›.",
         pills: ["Gap diagnosis", "Engagement scoping", "Success criteria"],
       },
       {
         title: "AI product manager",
         blurb:
-          "I own the agent roadmap: what we build, what good means, and the eval rubric that proves it. I built the team's evaluation framework, and ‹eval pass-rate is the release gate›.",
+          "I own the agent roadmap: what we build, what good means, and the rubric that proves it. I built the team's evaluation framework, and ‹eval pass-rate is the release gate›.",
         pills: ["Product management", "Eval design", "A/B testing"],
       },
       {
@@ -203,7 +196,7 @@ export const site = {
       {
         title: "Hands-on when needed",
         blurb:
-          "I ship internal tools, transforms, and prototypes with Claude Code, and I set the tooling up for our whole prompting team. Enough to prototype, debug, and partner credibly with engineering, not to replace it.",
+          "I ship internal tools, transforms, and prototypes with Claude Code. Enough to build, debug, and partner credibly with engineering, not to replace it.",
         pills: ["Claude Code", "SQL", "TypeScript (read and debug)"],
       },
     ],
@@ -215,22 +208,22 @@ export const site = {
       company: "VoxyHealth",
       time: "Aug 2025 - Present",
       blurb:
-        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. The loop runs diagnosis to measured outcome. Shipped 30+ production agents on ElevenLabs across 6 enterprise clients, running about «3,500 calls a day» as a fleet. I also mentor a small prompting pod: one prompt engineer, two interns.",
-      chips: ["30+ agents", "10-20% to 60-70% containment"],
+        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. I've shipped 30+ production agents on ElevenLabs across 6 enterprise clients, running about «3,500 calls a day» as a fleet, and I mentor a small prompting pod: one prompt engineer, two interns.",
+      chips: ["30+ agents", "10-20% to 60-70% on best cuts"],
     },
     {
       role: "Customer Success Manager",
       company: "Klenty",
       time: "Jan 2025 - Jul 2025",
       blurb:
-        "Owned customer success for two AI products: SchedX, an inbound AI voice platform, and SDRx, an AI SDR for email, LinkedIn, and calling. Onboarded and implemented clients across four verticals and four CRMs (HubSpot, Salesforce, Zoho, Pipedrive); the main bridge between customers and the product and engineering teams.",
+        "Owned customer success for two AI products: SchedX, an inbound AI voice platform, and SDRx, an AI SDR for email, LinkedIn, and calling. Onboarded and implemented clients across four verticals and four CRMs (HubSpot, Salesforce, Zoho, Pipedrive). The main bridge from customers back to product and engineering.",
     },
     {
       role: "Sales Development Representative",
       company: "Klenty",
       time: "Oct 2023 - Dec 2024",
       blurb:
-        "B2B SaaS sales, starting in my final year of college. Generated 15+ qualified leads and booked 8+ meetings a week, consistently above target. This is where the customer fluency that shapes how I scope and demo agents came from.",
+        "B2B SaaS sales, starting in my final year of college. Generated 15+ qualified leads and booked 8+ meetings a week, consistently above target. The customer fluency behind how I scope and demo agents started here.",
     },
     {
       role: "LMS and Marketing Site Intern",
@@ -277,7 +270,7 @@ export const site = {
   openSource: {
     title: "voice-agent-prompting",
     blurb:
-      "An open writeup of how I build production voice agents: the prompting architecture, model choice for low-latency telephony, writeups from live deployments, and six worked sample agents for the ElevenLabs platform.",
+      "An open writeup of how I build production voice agents: the prompting architecture, model choice for low-latency telephony, field notes from live deployments, and six worked sample agents for the ElevenLabs platform.",
     link: "https://github.com/AuskinImmanuel/voice-agent-prompting",
     linkLabel: "Read it on GitHub",
   },
@@ -286,6 +279,7 @@ export const site = {
 
   contact: {
     headline: "Building something with voice? Let's talk.",
+    location: "Based in Chennai. My customer calls already run on US hours.",
     email: "auskinimmanuel@gmail.com",
     phone: "+91 90035 43634",
     resume: "/auskin-immanuel-resume.pdf",

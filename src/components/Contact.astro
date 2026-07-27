@@ -16,6 +16,7 @@ import { site } from '../data/site';
     <p class="contact-email reveal" style="transition-delay: 200ms">
       <a href={`mailto:${site.contact.email}`}>{site.contact.email}</a> · <a href={`tel:${site.contact.phone.replace(/ /g, '')}`}>{site.contact.phone}</a>
     </p>
+    <p class="contact-location reveal" style="transition-delay: 260ms">{site.contact.location}</p>
   </div>
 </section>
 
@@ -40,6 +41,11 @@ import { site } from '../data/site';
   }
   .contact-inner {
     position: relative;
+  }
+  .contact-location {
+    margin-top: 10px;
+    color: var(--text-muted);
+    font-size: 0.95rem;
   }
   .display-sm {
     max-width: 18ch;

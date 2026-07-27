@@ -6,7 +6,12 @@ import { parseMarks } from '../lib/markup';
 <section id="method" class="method band">
   <div class="container">
     <h2 class="section-label reveal">How I work</h2>
-    <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
+    <div class="method-lead">
+      <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
+      <figure class="portrait reveal">
+        <img src="/auskin-portrait.jpg" alt="Auskin Immanuel" width="1080" height="1350" loading="lazy" />
+      </figure>
+    </div>
   </div>
   <div class="container-wide">
     <div class="method-steps">
@@ -48,6 +53,38 @@ import { parseMarks } from '../lib/markup';
     line-height: 1.5;
     letter-spacing: -0.01em;
     max-width: 760px;
+  }
+  .method-lead {
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 5vw, 64px);
+  }
+  .method-lead .method-statement {
+    flex: 1;
+  }
+  .portrait {
+    margin: 0;
+    flex: 0 0 auto;
+  }
+  .portrait img {
+    display: block;
+    width: clamp(180px, 22vw, 260px);
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.08),
+      0 24px 64px -24px color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+  @media (max-width: 720px) {
+    .method-lead {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+    .portrait img {
+      width: 180px;
+    }
   }
   .method-steps {
     position: relative;
