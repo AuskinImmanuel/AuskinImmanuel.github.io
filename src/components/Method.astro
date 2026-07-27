@@ -8,10 +8,19 @@ import { parseMarks } from '../lib/markup';
     <h2 class="section-label reveal">How I work</h2>
     <div class="method-lead">
       <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
-      <div class="portrait-scene reveal">
-        <img class="portrait-pano" src="/auskin-scene.jpg" alt="Auskin Immanuel" width="1800" height="1013" loading="lazy" />
-        <span class="portrait-grain" aria-hidden="true"></span>
-      </div>
+      <figure
+        class="portrait reveal"
+        style="margin: 0; flex: 0 0 auto; align-self: center;"
+      >
+        <img
+          src="/auskin-portrait.jpg"
+          alt="Auskin Immanuel"
+          width="1024"
+          height="1024"
+          loading="lazy"
+          style="display: block; width: clamp(180px, 20vw, 260px); height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 24px 64px -24px color-mix(in oklab, var(--accent) 45%, transparent);"
+        />
+      </figure>
     </div>
   </div>
   <div class="container-wide">
@@ -55,9 +64,38 @@ import { parseMarks } from '../lib/markup';
     letter-spacing: -0.01em;
     max-width: 760px;
   }
-  /* .method-lead and .portrait-scene styles live in global.css so they
-     survive any scoping surprises in the build. */
-
+  .method-lead {
+    display: flex;
+    align-items: center;
+    gap: clamp(28px, 5vw, 64px);
+  }
+  .method-lead .method-statement {
+    flex: 1;
+  }
+  .portrait {
+    margin: 0;
+    flex: 0 0 auto;
+  }
+  .portrait img {
+    display: block;
+    width: clamp(180px, 22vw, 260px);
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    box-shadow:
+      0 1px 2px rgba(0, 0, 0, 0.08),
+      0 24px 64px -24px color-mix(in oklab, var(--accent) 45%, transparent);
+  }
+  @media (max-width: 720px) {
+    .method-lead {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+    .portrait img {
+      width: 180px;
+    }
+  }
   .method-steps {
     position: relative;
     margin-top: 72px;
@@ -168,50 +206,3 @@ import { parseMarks } from '../lib/markup';
     }
   }
 </style>
-
-<script>
-  // Two-depth pointer parallax + proximity glow warm-up for the portrait.
-  // Desktop pointer devices only; sleeps when settled; transform/opacity only.
-  const scene = document.querySelector<HTMLElement>('.portrait-scene');
-  const section = document.getElementById('method');
-  if (
-    scene &&
-    section &&
-    matchMedia('(hover: hover) and (pointer: fine)').matches &&
-    !matchMedia('(prefers-reduced-motion: reduce)').matches
-  ) {
-    let tx = 0, ty = 0, tn = 0;
-    let cx = 0, cy = 0, cn = 0;
-    let raf = 0;
-    const tick = () => {
-      cx += (tx - cx) * 0.08;
-      cy += (ty - cy) * 0.08;
-      cn += (tn - cn) * 0.08;
-      scene.style.setProperty('--px', cx.toFixed(4));
-      scene.style.setProperty('--py', cy.toFixed(4));
-      scene.style.setProperty('--near', cn.toFixed(4));
-      if (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tn - cn) > 0.002) {
-        raf = requestAnimationFrame(tick);
-      } else {
-        raf = 0;
-      }
-    };
-    const wake = () => {
-      if (!raf) raf = requestAnimationFrame(tick);
-    };
-    section.addEventListener('pointermove', (e) => {
-      const r = section.getBoundingClientRect();
-      tx = ((e.clientX - r.left) / r.width) * 2 - 1;
-      ty = ((e.clientY - r.top) / r.height) * 2 - 1;
-      const s = scene.getBoundingClientRect();
-      const dx = e.clientX - (s.left + s.width / 2);
-      const dy = e.clientY - (s.top + s.height / 2);
-      tn = Math.max(0, 1 - Math.hypot(dx, dy) / (r.width * 0.5));
-      wake();
-    });
-    section.addEventListener('pointerleave', () => {
-      tx = 0; ty = 0; tn = 0;
-      wake();
-    });
-  }
-</script>
