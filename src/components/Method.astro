@@ -8,18 +8,9 @@ import { parseMarks } from '../lib/markup';
     <h2 class="section-label reveal">How I work</h2>
     <div class="method-lead">
       <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
-      <figure
-        class="portrait reveal"
-        style="margin: 0; flex: 0 0 auto; align-self: center;"
-      >
-        <img
-          src="/auskin-portrait.jpg"
-          alt="Auskin Immanuel"
-          width="1024"
-          height="1024"
-          loading="lazy"
-          style="display: block; width: clamp(180px, 20vw, 260px); height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 24px 64px -24px color-mix(in oklab, var(--accent) 45%, transparent);"
-        />
+      <figure class="portrait-scene reveal">
+        <span class="portrait-glow" aria-hidden="true"></span>
+        <img class="portrait-cut" src="/auskin-portrait.png" alt="Auskin Immanuel" width="1024" height="1024" loading="lazy" />
       </figure>
     </div>
   </div>
@@ -64,38 +55,8 @@ import { parseMarks } from '../lib/markup';
     letter-spacing: -0.01em;
     max-width: 760px;
   }
-  .method-lead {
-    display: flex;
-    align-items: center;
-    gap: clamp(28px, 5vw, 64px);
-  }
-  .method-lead .method-statement {
-    flex: 1;
-  }
-  .portrait {
-    margin: 0;
-    flex: 0 0 auto;
-  }
-  .portrait img {
-    display: block;
-    width: clamp(180px, 22vw, 260px);
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    border-radius: 18px;
-    border: 1px solid var(--border);
-    box-shadow:
-      0 1px 2px rgba(0, 0, 0, 0.08),
-      0 24px 64px -24px color-mix(in oklab, var(--accent) 45%, transparent);
-  }
-  @media (max-width: 720px) {
-    .method-lead {
-      flex-direction: column-reverse;
-      align-items: flex-start;
-    }
-    .portrait img {
-      width: 180px;
-    }
-  }
+  /* .method-lead and .portrait-scene styles live in global.css so they
+     survive any scoping surprises in the build. */
   .method-steps {
     position: relative;
     margin-top: 72px;
