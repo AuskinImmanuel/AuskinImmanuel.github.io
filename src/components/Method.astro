@@ -8,8 +8,18 @@ import { parseMarks } from '../lib/markup';
     <h2 class="section-label reveal">How I work</h2>
     <div class="method-lead">
       <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
-      <figure class="portrait reveal">
-        <img src="/auskin-portrait.jpg" alt="Auskin Immanuel" width="1080" height="1350" loading="lazy" />
+      <figure
+        class="portrait reveal"
+        style="margin: 0; flex: 0 0 auto; align-self: center;"
+      >
+        <img
+          src="/auskin-portrait.jpg"
+          alt="Auskin Immanuel"
+          width="1024"
+          height="1024"
+          loading="lazy"
+          style="display: block; width: clamp(180px, 20vw, 260px); height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 20px; border: 1px solid var(--border); box-shadow: 0 24px 64px -24px color-mix(in oklab, var(--accent) 45%, transparent);"
+        />
       </figure>
     </div>
   </div>
