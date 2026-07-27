@@ -8,11 +8,10 @@ import { parseMarks } from '../lib/markup';
     <h2 class="section-label reveal">How I work</h2>
     <div class="method-lead">
       <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
-      <figure class="portrait-scene reveal">
-        <img class="portrait-ambient" src="/auskin-portrait.png" alt="" aria-hidden="true" width="1024" height="1024" loading="lazy" />
-        <img class="portrait-cut" src="/auskin-portrait.png" alt="Auskin Immanuel" width="1024" height="1024" loading="lazy" />
+      <div class="portrait-scene reveal">
+        <img class="portrait-pano" src="/auskin-scene.jpg" alt="Auskin Immanuel" width="1800" height="1013" loading="lazy" />
         <span class="portrait-grain" aria-hidden="true"></span>
-      </figure>
+      </div>
     </div>
   </div>
   <div class="container-wide">
