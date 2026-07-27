@@ -5,7 +5,7 @@ export const site = {
   tagline: "Forward deployed product manager. I put voice AI on healthcare phone lines, where it's hardest, and answer for the outcomes.",
 
   hero: {
-    badge: "Forward Deployed PM · Voice AI on ElevenLabs",
+    badge: "Forward Deployed PM · Outcomes on healthcare phone lines",
     headline: "I deploy voice AI where it's hardest.",
     sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: ‹pull their real call recordings›, catalogue what's on their lines, then build the agents and ‹iterate on live traffic› until the numbers prove it.",
     metrics: [

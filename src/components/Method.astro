@@ -9,8 +9,9 @@ import { parseMarks } from '../lib/markup';
     <div class="method-lead">
       <p class="method-statement reveal">{parseMarks(site.method.statement).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
       <figure class="portrait-scene reveal">
-        <span class="portrait-glow" aria-hidden="true"></span>
+        <img class="portrait-ambient" src="/auskin-portrait.png" alt="" aria-hidden="true" width="1024" height="1024" loading="lazy" />
         <img class="portrait-cut" src="/auskin-portrait.png" alt="Auskin Immanuel" width="1024" height="1024" loading="lazy" />
+        <span class="portrait-grain" aria-hidden="true"></span>
       </figure>
     </div>
   </div>
@@ -57,6 +58,7 @@ import { parseMarks } from '../lib/markup';
   }
   /* .method-lead and .portrait-scene styles live in global.css so they
      survive any scoping surprises in the build. */
+
   .method-steps {
     position: relative;
     margin-top: 72px;
@@ -167,3 +169,50 @@ import { parseMarks } from '../lib/markup';
     }
   }
 </style>
+
+<script>
+  // Two-depth pointer parallax + proximity glow warm-up for the portrait.
+  // Desktop pointer devices only; sleeps when settled; transform/opacity only.
+  const scene = document.querySelector<HTMLElement>('.portrait-scene');
+  const section = document.getElementById('method');
+  if (
+    scene &&
+    section &&
+    matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    let tx = 0, ty = 0, tn = 0;
+    let cx = 0, cy = 0, cn = 0;
+    let raf = 0;
+    const tick = () => {
+      cx += (tx - cx) * 0.08;
+      cy += (ty - cy) * 0.08;
+      cn += (tn - cn) * 0.08;
+      scene.style.setProperty('--px', cx.toFixed(4));
+      scene.style.setProperty('--py', cy.toFixed(4));
+      scene.style.setProperty('--near', cn.toFixed(4));
+      if (Math.abs(tx - cx) + Math.abs(ty - cy) + Math.abs(tn - cn) > 0.002) {
+        raf = requestAnimationFrame(tick);
+      } else {
+        raf = 0;
+      }
+    };
+    const wake = () => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    };
+    section.addEventListener('pointermove', (e) => {
+      const r = section.getBoundingClientRect();
+      tx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      ty = ((e.clientY - r.top) / r.height) * 2 - 1;
+      const s = scene.getBoundingClientRect();
+      const dx = e.clientX - (s.left + s.width / 2);
+      const dy = e.clientY - (s.top + s.height / 2);
+      tn = Math.max(0, 1 - Math.hypot(dx, dy) / (r.width * 0.5));
+      wake();
+    });
+    section.addEventListener('pointerleave', () => {
+      tx = 0; ty = 0; tn = 0;
+      wake();
+    });
+  }
+</script>

@@ -26,6 +26,10 @@
   --atmo-lavender: color-mix(in srgb, #c8b8e0 14%, transparent);
   --atmo-peach: color-mix(in srgb, #f4c5a8 14%, transparent);
   --atmo-sky: color-mix(in srgb, #a8c8e8 16%, transparent);
+
+  --ambient-base: 0.32;
+  --grain-blend: multiply;
+  --grain-opacity: 0.04;
 }
 
 :root[data-theme="dark"] {
@@ -44,6 +48,10 @@
   --atmo-lavender: color-mix(in srgb, #c8b8e0 20%, transparent);
   --atmo-peach: color-mix(in srgb, #f4c5a8 18%, transparent);
   --atmo-sky: color-mix(in srgb, #a8c8e8 22%, transparent);
+
+  --ambient-base: 0.5;
+  --grain-blend: overlay;
+  --grain-opacity: 0.06;
 }
 
 /* ===================== Reset ===================== */
@@ -523,41 +531,45 @@ button:focus-visible {
   flex: 1;
 }
 .portrait-scene {
+  --px: 0;
+  --py: 0;
+  --near: 0;
   position: relative;
   margin: 0;
   flex: 0 0 auto;
   align-self: center;
-  width: clamp(210px, 24vw, 300px);
+  width: clamp(220px, 25vw, 310px);
   aspect-ratio: 1;
 }
-.portrait-glow {
+.portrait-ambient {
   position: absolute;
-  inset: 6%;
-  border-radius: 38% 62% 58% 42% / 46% 40% 60% 54%;
-  background:
-    radial-gradient(circle at 32% 28%, var(--atmo-lavender) 0%, transparent 68%),
-    radial-gradient(circle at 68% 62%, var(--atmo-sky) 0%, transparent 64%),
-    radial-gradient(circle at 55% 45%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 72%);
-  filter: blur(26px);
-  transform: scale(1.04);
-  transition: transform 0.6s ease, filter 0.6s ease;
+  inset: 0;
+  width: 100%;
+  height: auto;
+  filter: blur(46px) saturate(1.6) brightness(1.05);
+  opacity: calc(var(--ambient-base) + var(--near) * 0.22);
+  transform: scale(1.2) translate3d(calc(var(--px) * -7px), calc(var(--py) * -5px), 0);
+  pointer-events: none;
 }
 .portrait-cut {
   position: relative;
   display: block;
   width: 100%;
   height: auto;
-  -webkit-mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 84%, transparent 100%);
-  filter: drop-shadow(0 16px 28px rgba(0, 0, 0, 0.3));
-  transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+  -webkit-mask-image: linear-gradient(#000 76%, transparent 99%), radial-gradient(125% 105% at 50% 38%, #000 58%, transparent 99%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(#000 76%, transparent 99%), radial-gradient(125% 105% at 50% 38%, #000 58%, transparent 99%);
+  mask-composite: intersect;
+  transform: translate3d(calc(var(--px) * 10px), calc(var(--py) * 6px), 0);
 }
-.portrait-scene:hover .portrait-cut {
-  transform: translateY(-6px);
-}
-.portrait-scene:hover .portrait-glow {
-  transform: scale(1.12);
-  filter: blur(30px);
+.portrait-grain {
+  position: absolute;
+  inset: -8%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px;
+  mix-blend-mode: var(--grain-blend);
+  opacity: var(--grain-opacity);
+  pointer-events: none;
 }
 @media (max-width: 720px) {
   .method-lead {
@@ -566,6 +578,12 @@ button:focus-visible {
   }
   .portrait-scene {
     align-self: center;
-    width: 220px;
+    width: 230px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .portrait-cut,
+  .portrait-ambient {
+    transform: none;
   }
 }
