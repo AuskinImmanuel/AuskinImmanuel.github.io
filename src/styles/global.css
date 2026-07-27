@@ -560,15 +560,31 @@ button:focus-visible {
   height: 100%;
   object-fit: cover;
   object-position: 32% 20%;
-  -webkit-mask-image: linear-gradient(to bottom left, #000 var(--pano-solid), transparent var(--pano-fade)), linear-gradient(to right, transparent 2%, #000 22%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 84%, transparent 100%);
-  -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to bottom left, #000 var(--pano-solid), transparent var(--pano-fade)), linear-gradient(to right, transparent 2%, #000 22%), linear-gradient(to bottom, transparent 0%, #000 14%, #000 84%, transparent 100%);
-  mask-composite: intersect;
   opacity: calc(0.94 + var(--near) * 0.06);
+  /* opacity forms a stacking context, so the overlay and grain need explicit
+     z-indexes to paint above the image. */
+  position: relative;
+  z-index: 1;
+}
+/* Dissolve via bg-colored overlays instead of mask-composite: Safari has no
+   standard mask-composite, which left the photo a hard rectangle there. The
+   section background is a solid theme color, so painting it back over the
+   image edges is visually identical and works in every browser. */
+.portrait-scene::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(to bottom left, transparent var(--pano-solid), var(--bg-secondary) var(--pano-fade)),
+    linear-gradient(to right, var(--bg-secondary) 2%, transparent 22%),
+    linear-gradient(to bottom, var(--bg-secondary) 0%, transparent 14%),
+    linear-gradient(to top, var(--bg-secondary) 0%, transparent 16%);
 }
 .portrait-grain {
   position: absolute;
   inset: 0;
+  z-index: 3;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: 180px;
   mix-blend-mode: var(--grain-blend);
@@ -593,10 +609,13 @@ button:focus-visible {
   }
   .portrait-pano {
     object-position: 50% 18%;
-    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 96%), linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-    -webkit-mask-composite: source-in;
-    mask-image: linear-gradient(to bottom, #000 55%, transparent 96%), linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
-    mask-composite: intersect;
+  }
+  .portrait-scene::before {
+    background:
+      linear-gradient(to bottom, transparent 55%, var(--bg-secondary) 96%),
+      linear-gradient(to top, transparent 86%, var(--bg-secondary) 100%),
+      linear-gradient(to right, var(--bg-secondary) 0%, transparent 10%),
+      linear-gradient(to left, var(--bg-secondary) 0%, transparent 10%);
   }
 }
 @media (prefers-reduced-motion: reduce) {
