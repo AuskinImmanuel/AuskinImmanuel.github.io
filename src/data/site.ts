@@ -109,6 +109,11 @@ export const site = {
         blurb:
           "Ideas become working tools the same day: internal utilities, prototypes, this site, and ‹Lia, the agent living in the orb up top›. I set that tooling up for my whole prompting team.",
       },
+      {
+        title: "Follow the frontier",
+        blurb:
+          "Off the clock it's physics and quantum computation: logical qubits, verifiable quantum advantage, the roadmaps under the headlines. ‹Curiosity, not expertise›. But every frontier eventually needs people who can make it useful inside a real organization, and I want a head start on whichever one comes next.",
+      },
     ],
   },
 
@@ -166,8 +171,8 @@ export const site = {
       {
         title: "Forward-deployment strategist",
         blurb:
-          "From the first client workshop to a live pilot, and past it. I embed with the customer's team, scope the engagement, and set what success means before the build starts. After go-live I ‹read how the system performs, diagnose the gap, architect the fix, and prove the outcome›.",
-        pills: ["Gap diagnosis", "Engagement scoping", "Success criteria"],
+          "From the first client workshop to a live pilot, and past it. I embed with the customer's team, scope the engagement, and set what success means before the build starts. ‹The solution takes whatever shape the problem needs›: a voice agent, a platform automation, an API integration. Then I read how it performs live, diagnose the gaps, and prove the outcome.",
+        pills: ["Gap diagnosis", "Success criteria", "Voice, automations, APIs"],
       },
       {
         title: "AI product manager",
@@ -196,8 +201,8 @@ export const site = {
       {
         title: "Hands-on when needed",
         blurb:
-          "I ship internal tools, transforms, and prototypes with Claude Code. Enough to build, debug, and partner credibly with engineering, not to replace it.",
-        pills: ["Claude Code", "SQL", "TypeScript (read and debug)"],
+          "I ship internal tools, transforms, and prototypes with Claude Code, and lately ‹two public platform builds outside voice›: a Sheet-to-PSA time-entry sync on Workato, and a form that writes its own requirements doc. Enough to build, debug, and partner credibly with engineering, not to replace it.",
+        pills: ["Claude Code", "Workato", "REST APIs", "SQL"],
       },
     ],
   },
@@ -270,15 +275,32 @@ export const site = {
   openSource: {
     title: "voice-agent-prompting",
     blurb:
-      "An open writeup of how I build production voice agents: the prompting architecture, model choice for low-latency telephony, field notes from live deployments, and six worked sample agents for the ElevenLabs platform.",
+      "The flagship writeup: how I build production voice agents, from prompting architecture to model choice for low-latency telephony, with six worked samples for ElevenLabs. Around it sits ‹a family of builds in a different shape entirely›, platform automations and API integrations, because the discipline travels: define the contract, prove it on the live system, design the failure path first.",
     link: "https://github.com/AuskinImmanuel/voice-agent-prompting",
     linkLabel: "Read it on GitHub",
+    more: [
+      {
+        title: "workato-time-entry-sync",
+        href: "https://github.com/AuskinImmanuel/workato-time-entry-sync",
+        note: "Google Sheet to PSA time entries through a daily Workato recipe. Idempotent, with the error queue living in the sheet where ops already works.",
+      },
+      {
+        title: "form-to-requirements-doc",
+        href: "https://github.com/AuskinImmanuel/form-to-requirements-doc",
+        note: "A form submission becomes a requirements document, fully native, no middleware. The load-bearing step wasn't documented anywhere; I verified it by building it.",
+      },
+      {
+        title: "rocketlane-api-experiments",
+        href: "https://github.com/AuskinImmanuel/rocketlane-api-experiments",
+        note: "The API sandbox both builds grew out of: pagination, rate limits, and the contract traps the docs don't warn you about.",
+      },
+    ],
   },
 
   writing: [],
 
   contact: {
-    headline: "Building something with voice? Let's talk.",
+    headline: "Deploying something hard? Let's talk.",
     location: "Based in Chennai. My customer calls already run on US hours.",
     email: "auskinimmanuel@gmail.com",
     phone: "+91 90035 43634",

@@ -1,5 +1,6 @@
 ---
 import { site } from '../data/site';
+import { parseMarks } from '../lib/markup';
 const os = site.openSource;
 ---
 
@@ -9,10 +10,22 @@ const os = site.openSource;
     <article class="card os-card reveal">
       <div class="os-copy">
         <h3 class="os-title">{os.title}</h3>
-        <p class="os-blurb">{os.blurb}</p>
+        <p class="os-blurb">{parseMarks(os.blurb).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}</p>
       </div>
       <a class="btn-ghost" href={os.link} target="_blank" rel="noopener">{os.linkLabel}</a>
     </article>
+    {
+      os.more.length > 0 && (
+        <div class="os-more reveal">
+          {os.more.map((r) => (
+            <a class="os-repo" href={r.href} target="_blank" rel="noopener">
+              <h4 class="os-repo-title">{r.title}</h4>
+              <p class="os-repo-note">{r.note}</p>
+            </a>
+          ))}
+        </div>
+      )
+    }
     {
       site.writing.length > 0 && (
         <ul class="os-writing">
@@ -53,6 +66,37 @@ const os = site.openSource;
   .os-card .btn-ghost {
     flex-shrink: 0;
   }
+  .os-more {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .os-repo {
+    display: block;
+    padding: 20px 22px;
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    text-decoration: none;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+  }
+  .os-repo:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .os-repo-title {
+    font-size: 0.95rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .os-repo-note {
+    margin-top: 8px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+  }
   .os-writing {
     margin-top: 24px;
     list-style: none;
@@ -64,6 +108,9 @@ const os = site.openSource;
     .os-card {
       flex-direction: column;
       align-items: flex-start;
+    }
+    .os-more {
+      grid-template-columns: 1fr;
     }
   }
 </style>
