@@ -19,6 +19,7 @@ import { parseMarks } from '../lib/markup';
               <p class="study-blurb">
                 {parseMarks(c.blurb).map((m) => (m.t === 'text' ? m.v : m.t === 'hl' ? <em class="hl">{m.v}</em> : <em class="em-acc">{m.v}</em>))}
               </p>
+            </div>
               {c.art === 'graph' && (
                 <svg class="study-art art-net" viewBox="0 0 240 96" fill="none" aria-hidden="true">
                   <g stroke="var(--border)" stroke-width="1">
@@ -58,18 +59,6 @@ import { parseMarks } from '../lib/markup';
                   <circle class="art-core" cx="186" cy="48" r="11" fill="var(--accent)" />
                 </svg>
               )}
-            </div>
-            {c.lines && (
-              <div class="study-lines">
-                {c.linesLabel && <span class="study-lines-label">{c.linesLabel}</span>}
-                {c.lines.map((l) => (
-                  <div class="study-line">
-                    <span class="study-line-name">{l.name}</span>
-                    <span class="study-line-note">{l.note}</span>
-                  </div>
-                ))}
-              </div>
-            )}
             <div class="study-stat">
               <span class="study-stat-value">{c.stat}</span>
               <span class="study-stat-label">{c.statLabel}</span>
@@ -102,6 +91,10 @@ import { parseMarks } from '../lib/markup';
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+    /* Cards size to their own content. Stretching them to a shared row
+       height pushed the stat to the bottom of the tallest card and left
+       the shorter ones with an empty band above it. */
+    align-items: start;
   }
   .study {
     display: flex;
@@ -148,81 +141,6 @@ import { parseMarks } from '../lib/markup';
     fill: var(--green);
     transform: scale(1.3);
   }
-  .study-lines {
-    margin-top: 26px;
-    width: 100%;
-    max-width: 440px;
-  }
-  /* The hero owns two grid rows, so it is always the tallest cell. Its
-     blocks scale with it: the table runs the full card width, the rows
-     breathe, and whatever height is left over is shared above and below. */
-  .study-hero .study-lines {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-width: 100%;
-    margin-top: 56px;
-  }
-  .study-hero .study-lines-label {
-    margin-bottom: 18px;
-  }
-  .study-hero .study-line {
-    padding: 30px 2px;
-  }
-  /* One-third columns are too narrow for a name and a note side by side,
-     so outside the hero the note sits under the name. */
-  .study:not(.study-hero) .study-line {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 3px;
-    padding: 8px 2px;
-  }
-  .study:not(.study-hero) .study-line-note {
-    text-align: left;
-  }
-  .study-lines-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-  }
-  .study-line {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    padding: 11px 2px;
-    border-bottom: 1px solid var(--border);
-  }
-  .study-line::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -1px;
-    height: 2px;
-    width: 100%;
-    background: var(--green);
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s var(--ease);
-  }
-  .study-line:hover::after {
-    transform: scaleX(1);
-  }
-  .study-line-name {
-    font-weight: 500;
-    font-size: 0.92rem;
-  }
-  .study-line-note {
-    color: var(--text-muted);
-    font-size: 0.84rem;
-    text-align: right;
-  }
   .study-bar-fill {
     transform: scaleX(0);
     transform-origin: left;
@@ -248,9 +166,16 @@ import { parseMarks } from '../lib/markup';
     text-align: right;
     align-items: flex-end;
   }
+  /* The flagship runs full width as a feature row: copy on the left, the
+     routing diagram and the headline number on the right. It used to span
+     two grid rows, which forced its height from the cards beside it and
+     left a large empty band in the middle. */
   .study-hero {
-    grid-column: span 2;
-    grid-row: span 2;
+    grid-column: 1 / -1;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
     background:
       radial-gradient(circle at 85% 110%, var(--atmo-sky) 0%, transparent 55%),
       radial-gradient(circle at 10% -10%, var(--atmo-mint) 0%, transparent 45%),
@@ -272,16 +197,22 @@ import { parseMarks } from '../lib/markup';
   /* Two columns of body text is too long a line to read comfortably, so
      the hero keeps a magazine measure and spends the width on the art. */
   .study-hero .study-copy {
-    width: 100%;
+    max-width: 56ch;
   }
   .study-hero .study-blurb {
     font-size: 1.02rem;
     line-height: 1.75;
-    max-width: 52ch;
   }
   .study-hero .study-art {
-    margin-top: 36px;
+    margin-top: 0;
+    width: 300px;
     max-width: 100%;
+  }
+  .study-hero .study-stat {
+    margin-top: 0;
+    padding-top: 0;
+    text-align: right;
+    align-items: flex-end;
   }
   .study-stat {
     margin-top: auto;
@@ -342,21 +273,35 @@ import { parseMarks } from '../lib/markup';
   .study-bar-fill.is-after {
     background: var(--accent);
   }
+  /* Below the wide breakpoint the hero's side-by-side row has no room, so
+     it stacks like every other card and the art returns to inline size. */
   @media (max-width: 900px) {
     .bento {
       grid-template-columns: 1fr 1fr;
     }
     .study-hero {
-      grid-column: span 2;
-      grid-row: auto;
+      grid-column: 1 / -1;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+    }
+    .study-hero .study-copy {
+      max-width: 100%;
+    }
+    .study-hero .study-art {
+      margin-top: 20px;
+      width: 260px;
+    }
+    .study-hero .study-stat {
+      margin-top: auto;
+      padding-top: 28px;
+      text-align: left;
+      align-items: flex-start;
     }
   }
   @media (max-width: 620px) {
     .bento {
       grid-template-columns: 1fr;
-    }
-    .study-hero {
-      grid-column: auto;
     }
   }
 </style>
