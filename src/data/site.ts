@@ -22,11 +22,11 @@ export const site = {
 
   marquee: [
     "Medicare Advantage claims line",
-    "multi-location orthopedic operator",
+    "multi-location orthopedic front desk",
     "EHR-integrated scheduling",
     "post-discharge outreach",
     "care-gap outreach",
-    "40-scenario call routing",
+    "75-rule transfer routing",
     "eval-gated releases",
     "success criteria before build",
     "first demo in a day",
@@ -71,7 +71,7 @@ export const site = {
         title: "Embed",
         blurb:
           "I start inside the customer's world: their ops team, their call recordings, their real day. What actually happens on the line, not what the spec says happens.",
-        proof: "«3,298 real calls» classified in three days into 54 call types for one operator agent",
+        proof: "«3,298 real calls» classified in three days into 54 call types, which became roughly 40 flows in the live build",
       },
       {
         title: "Design",
@@ -119,14 +119,32 @@ export const site = {
 
   caseStudies: [
     {
+      title: "A multi-location orthopedic group",
+      badge: "Front desk · live since Aug 2026",
+      blurb:
+        "I built the agent that answers their front desk, wired into their EHR and «live since August 2026». One phone number covers every office, and callers name a city, a doctor, a body part, or nothing at all, so placing the caller is the first job on every call. I made the handoff ‹a contract, not an association›: every transfer is keyed to the exact phrase the agent speaks, because a natural-sounding synonym dials the wrong desk. Most of them run warm, so an outbound leg briefs the human first and ‹bridges the caller only on a yes›.",
+      stat: "75",
+      statLabel: "keyed transfer rules, 72 warm-transferred",
+      hero: true,
+      art: "graph",
+      linesLabel: "Layers behind one phone number",
+      lines: [
+        { name: "Location resolution", note: "derive from the record, one city ask at most" },
+        { name: "Measured geography", note: "road-distance ladders, not list order" },
+        { name: "Walled satellite site", note: "transfer-only, never offered as an alternative" },
+        { name: "Transfer contract", note: "warm by default, internal lines by payload" },
+        { name: "Speech coherence", note: "one acknowledgment per need, across ~40 flows" },
+      ],
+    },
+    {
       title: "A California health-insurance payer",
       badge: "Payer side · 5 lines",
       blurb:
         "My deepest payer relationship: one California health plan and a whole family of agent lines, built and iterated as one fleet. The flagship is the Medicare Advantage claims line, «around 900 calls a day». Rebuilding its prompt and eval rubric around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran five LLMs live in parallel on this line against a single rubric; a model earns its slot on data, not on feel. On the sibling prior-auth line, between two production reports a month apart, ‹first-attempt resolution rose from 81.2% to 98.5%› while average handle time fell 32%. ‹What started as one claims line is now a five-line family›.",
       stat: "10-20% to 60-70%",
       statLabel: "fully-AI-handled containment, best cuts",
-      hero: true,
       bar: { before: 15, after: 65 },
+      linesLabel: "Agent lines on this payer",
       lines: [
         { name: "Medicare Advantage claims", note: "the flagship, ~900 calls a day" },
         { name: "Medicare eligibility", note: "coverage and plan checks" },
@@ -134,15 +152,6 @@ export const site = {
         { name: "Prior authorization", note: "inbound intake" },
         { name: "Member verification", note: "outbound outreach" },
       ],
-    },
-    {
-      title: "Multi-location orthopedic operator",
-      badge: "Inbound",
-      blurb:
-        "One operator agent for a multi-location orthopedic group, integrated with their EHR. I classified «3,298 of their real calls» into 54 call types, then about 40 scenarios with named transfer rules and safety routing. Then I placed pilot calls on the real integration myself: four calls turned into ‹five fix commits and a validation spec for engineering› within two days. After the inbound work proved out in our business reviews, the group ‹commissioned an outbound appointment-reminder campaign›.",
-      stat: "40",
-      statLabel: "scenarios, one agent",
-      art: "graph",
     },
     {
       title: "Care-gap outreach platform",

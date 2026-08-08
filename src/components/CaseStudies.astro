@@ -61,7 +61,7 @@ import { parseMarks } from '../lib/markup';
             </div>
             {c.lines && (
               <div class="study-lines">
-                <span class="study-lines-label">Agent lines on this payor</span>
+                {c.linesLabel && <span class="study-lines-label">{c.linesLabel}</span>}
                 {c.lines.map((l) => (
                   <div class="study-line">
                     <span class="study-line-name">{l.name}</span>
@@ -153,14 +153,33 @@ import { parseMarks } from '../lib/markup';
     width: 100%;
     max-width: 440px;
   }
+  /* The hero owns two grid rows, so it is always the tallest cell. Its
+     blocks scale with it: the table runs the full card width, the rows
+     breathe, and whatever height is left over is shared above and below. */
   .study-hero .study-lines {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    max-width: 100%;
+    margin-top: 56px;
+  }
+  .study-hero .study-lines-label {
+    margin-bottom: 18px;
   }
   .study-hero .study-line {
-    padding: 14px 2px;
+    padding: 30px 2px;
+  }
+  /* One-third columns are too narrow for a name and a note side by side,
+     so outside the hero the note sits under the name. */
+  .study:not(.study-hero) .study-line {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    padding: 8px 2px;
+  }
+  .study:not(.study-hero) .study-line-note {
+    text-align: left;
   }
   .study-lines-label {
     display: block;
@@ -249,6 +268,20 @@ import { parseMarks } from '../lib/markup';
     font-size: 0.95rem;
     color: var(--text-muted);
     line-height: 1.65;
+  }
+  /* Two columns of body text is too long a line to read comfortably, so
+     the hero keeps a magazine measure and spends the width on the art. */
+  .study-hero .study-copy {
+    width: 100%;
+  }
+  .study-hero .study-blurb {
+    font-size: 1.02rem;
+    line-height: 1.75;
+    max-width: 52ch;
+  }
+  .study-hero .study-art {
+    margin-top: 36px;
+    max-width: 100%;
   }
   .study-stat {
     margin-top: auto;
