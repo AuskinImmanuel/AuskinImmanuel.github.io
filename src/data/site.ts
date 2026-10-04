@@ -2,18 +2,20 @@
 
 export const site = {
   name: "Auskin Immanuel",
-  tagline: "Forward deployed product manager. I put voice AI on healthcare phone lines, where it's hardest, and answer for the outcomes.",
+  pageTitle: "Auskin Immanuel, voice AI deployment and forward deployed strategy",
+  tagline: "I put voice AI on healthcare phone lines at VoxyHealth: 30+ agents built, 20 live in production by July 2026. From November 2026, Associate - Forward Deployed Strategist in Chennai.",
 
   hero: {
-    badge: "Forward Deployed PM · Outcomes on healthcare phone lines",
-    headline: "I deploy voice AI where it's hardest.",
-    sub: "Healthcare phone lines, where the caller is a patient and a wrong answer actually matters. At VoxyHealth I sit forward with the customer: ‹pull their real call recordings›, catalogue what's on their lines, then build the agents and ‹iterate on live traffic› until the numbers prove it.",
+    badge: "Associate - Forward Deployed Strategist · from Nov 2026",
+    headline: "I care most about what happens after go-live.",
+    sub: "At VoxyHealth I put voice AI on healthcare phone lines, where the caller is a patient and a wrong answer actually matters. I sat forward with the customer: ‹pulled their real call recordings›, catalogued what was on their lines, then built the agents and ‹iterated on live traffic› until the calls held up.",
     metrics: [
       { value: "30+", label: "agents built, 20 live in production" },
       { value: "6", label: "enterprise healthcare clients" },
       { value: "~3,500", label: "calls a day across the fleet" },
-      { value: "60-70%", label: "containment on best cuts, up from 10-20%" },
+      { value: "60-70%", label: "claims-line containment on best cuts, up from 10-20%" },
     ],
+    metricsNote: "Numbers from my time at VoxyHealth, as of July 2026.",
     ctas: [
       { label: "See the work", href: "#work", primary: true },
       { label: "GitHub", href: "https://github.com/AuskinImmanuel", primary: false },
@@ -39,7 +41,7 @@ export const site = {
     label: "One call, end to end",
     headline: "What a good call sounds like.",
     intro:
-      "The shape of the work: a live phone line, a real scheduling system behind it, and a caller who gets what they came for in one conversation. Scroll through a call.",
+      "The shape of my voice AI work: a live phone line, a real scheduling system behind it, and a caller who gets what they came for in one conversation. Scroll through a call.",
     disclaimer: "Illustrative transcript. No real patient, clinic, or call data.",
     header: "Inbound · orthopedic scheduling line",
     turns: [
@@ -71,7 +73,7 @@ export const site = {
         title: "Embed",
         blurb:
           "I start inside the customer's world: their ops team, their call recordings, their real day. What actually happens on the line, not what the spec says happens.",
-        proof: "«3,298 real calls» classified in three days into 54 call types, which became roughly 40 flows in the live build",
+        proof: "«3,298 real calls» from three business days, classified into 54 call types, which became roughly 40 flows in the live build",
       },
       {
         title: "Design",
@@ -82,14 +84,14 @@ export const site = {
       {
         title: "Ship",
         blurb:
-          "Eval-gated releases, multi-LLM A/B tests, and pilot calls I place myself against the real integration before anything goes live.",
-        proof: "«about one new agent a week» stood up, sustained March through July",
+          "Multi-LLM A/B tests, eval gates on a payer's highest-volume lines, and pilot calls I place myself against the real integration before anything goes live.",
+        proof: "«about one new agent a week» stood up, sustained March through July 2026",
       },
       {
         title: "Operate",
         blurb:
           "Live traffic is the real eval. I read the transcripts and sort every gap into one of four buckets: prompt issue, design issue, platform debt, or something that shouldn't be automated at all. Each bucket gets a different fix, and fixing the wrong bucket is how teams burn weeks.",
-        proof: "a «daily ground-truth pipeline» grades every claims call; 268 hand-labelled for one ROI report",
+        proof: "a «daily ground-truth pipeline» I wrote for the claims line; a 268-patient campaign analysis for one client",
       },
     ],
   },
@@ -120,9 +122,9 @@ export const site = {
   caseStudies: [
     {
       title: "A multi-location orthopedic group",
-      badge: "Front desk · live since Aug 2026",
+      badge: "Front desk · went live Aug\u00a02026",
       blurb:
-        "I built the agent that answers their front desk, wired into their EHR and «live since August 2026». One phone number covers every office, and callers name a city, a doctor, a body part, or nothing at all, so placing the caller is the first job on every call. I made the handoff ‹a contract, not an association›: every transfer is keyed to the exact phrase the agent speaks, because a natural-sounding synonym dials the wrong desk. Most of them run warm, so an outbound leg briefs the human first and ‹bridges the caller only on a yes›.",
+        "I built their front-desk agent, wired into their EHR, and it «went live in August 2026». One phone number covers every office, and callers name a city, a doctor, a body part, or nothing at all, so placing the caller is the first job on every call. I made the handoff ‹a contract, not an association›: every transfer is keyed to the exact phrase the agent speaks, because a natural-sounding synonym dials the wrong desk. Before launch, most of them moved to warm transfer: an outbound leg briefed the human first and ‹bridged the caller only on a yes›.",
       stat: "75",
       statLabel: "keyed transfer rules, 72 warm-transferred",
       hero: true,
@@ -130,9 +132,9 @@ export const site = {
     },
     {
       title: "A California health-insurance payer",
-      badge: "Payer side · 5 lines",
+      badge: "Payer side · 7 live lines",
       blurb:
-        "My deepest payer relationship: one California health plan, five agent lines, built and iterated as one fleet. Rebuilding the Medicare Advantage claims line around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, as of June 2026. I ran five LLMs live against a single rubric, because a model earns its slot on data, not on feel. ‹What started as one claims line is now a five-line family›.",
+        "The account I went deepest on: one California health plan, seven live agent lines, built and iterated as one fleet. Rebuilding the Medicare Advantage claims line around call outcomes lifted fully-AI-handled containment from «the 10-20% range to 60-70%» on best cuts, between March and July 2026. I ran five LLMs live against a single rubric, because a model earns its slot on data, not on feel. ‹Proof on the provider lines earned the next one›.",
       stat: "10-20% to 60-70%",
       statLabel: "fully-AI-handled containment, best cuts",
       bar: { before: 15, after: 65 },
@@ -141,7 +143,7 @@ export const site = {
       title: "Care-gap outreach platform",
       badge: "Outbound",
       blurb:
-        "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. A ‹3-layer prompt architecture› runs «five care gaps» per patient under a single master agent, with clean AI-to-human coordinator handoffs. One trade-off I'm proud of: a wrong automated answer on medication checks costs patient trust, so ‹I removed the AI-to-pharmacy calls› in favor of a human check. Some loops belong with humans.",
+        "Outbound agents that coordinate patients, pharmacies, and providers across multiple calls to close screening and medication gaps. Teammates built the first gap agents. In July 2026 I consolidated them into one master agent covering «five care gaps» per patient, on a ‹3-layer prompt architecture›, with clean AI-to-human coordinator handoffs. One trade-off I'm proud of: a wrong automated answer on medication checks costs patient trust, so ‹I removed the AI-to-pharmacy calls› in favor of a human check. Some loops belong with humans.",
       stat: "5",
       statLabel: "care gaps, one master agent",
       art: "gaps",
@@ -150,9 +152,9 @@ export const site = {
       title: "Fleet small-model migration",
       badge: "Architecture",
       blurb:
-        "Moved «about nine production agents» to a small, fast model in four weeks. The unlock is prompt architecture: ‹a lean base prompt plus one card per scenario›, with a single trailing guardrails block. The token drop is what buys a live phone call its latency.",
+        "By late July 2026, «8 of the 20 live agents» ran on a small, fast model. We moved them over line by line, and a teammate did much of one client's migration. The unlock is prompt architecture: ‹a lean base prompt plus one card per scenario›, with a single trailing guardrails block. The token drop is what buys a live phone call its latency.",
       stat: "20K to 6.4K",
-      statLabel: "tokens per turn",
+      statLabel: "tokens per turn, orthopedic front desk",
       bar: { before: 100, after: 32 },
     },
   ],
@@ -163,49 +165,70 @@ export const site = {
       {
         title: "Forward-deployment strategist",
         blurb:
-          "From the first client workshop to a live pilot, and past it. I embed with the customer's team, scope the engagement, and set what success means before the build starts. ‹The solution takes whatever shape the problem needs›: a voice agent, a platform automation, an API integration. Then I read how it performs live, diagnose the gaps, and prove the outcome.",
+          "From the first client workshop to a live pilot, and past it. I embedded with the customer's team, scoped the engagement, agreed what success meant before the build started, then read how the agent performed live and diagnosed the gaps. ‹The solution takes whatever shape the problem needs›: a voice agent on the job, a platform automation or an API integration in my own builds.",
         pills: ["Gap diagnosis", "Success criteria", "Voice, automations, APIs"],
       },
       {
         title: "AI product manager",
         blurb:
-          "I own the agent roadmap: what we build, what good means, and the rubric that proves it. Success criteria are agreed before the build starts, and ‹eval pass-rate is the release gate›.",
+          "I owned agent behavior on my lines: what good meant on a call, and the specs it was judged against. On the payer's claims, prior-auth and eligibility lines, ‹eval pass-rate was the release gate›.",
         pills: ["Product management", "Eval design", "A/B testing"],
       },
       {
         title: "Voice AI expert",
         blurb:
-          "«30+ agents built» on ElevenLabs, 20 live in production. Prompting architecture, model routing, latency budgets, bilingual support, and ‹speech discipline for small models›.",
+          "«30+ agents built» on ElevenLabs, 20 live in production by July 2026. Prompting architecture, model routing, latency budgets, bilingual support, and ‹speech discipline for small models›.",
         pills: ["ElevenLabs", "Prompt engineering", "Multi-LLM routing"],
       },
       {
         title: "Customer-facing operator",
         blurb:
-          "SDR, then CSM, then PM. I've been the person on the call at every stage, and I still run the customer meetings and business reviews for my agents.",
+          "SDR, then CSM, then PM. I've been the person on the call at every stage, and I ran the customer meetings and business reviews for my agents.",
         pills: ["Discovery calls", "Demos", "Onboarding", "Business reviews"],
       },
       {
         title: "Close to engineering",
         blurb:
-          "I hand engineering exact contracts: ‹tool schemas, validation specs, release plans›. I review PRs for agent-behavior impact, and live call failures come back as clean, testable asks.",
+          "I handed engineering exact contracts: ‹tool schemas, validation specs, release plans›, and live call failures went back as clean, testable asks.",
         pills: ["Tool schemas", "Dev specs", "Release gates"],
       },
       {
         title: "Hands-on when needed",
         blurb:
-          "I ship internal tools, transforms, and prototypes with Claude Code, and lately ‹two public platform builds outside voice›: a Sheet-to-PSA time-entry sync on Workato, and a form that writes its own requirements doc. Enough to build, debug, and partner credibly with engineering, not to replace it.",
+          "I've shipped internal tools, transforms, and prototypes with Claude Code, and ‹two public platform builds outside voice›: a Sheet-to-PSA time-entry sync on Workato, and a form that writes its own requirements doc. Enough to build, debug, and partner credibly with engineering, not to replace it.",
         pills: ["Claude Code", "Workato", "REST APIs", "SQL"],
       },
     ],
+  },
+
+  now: {
+    label: "Now",
+    headline: "Same loop, new customers.",
+    narrative: [
+      "In November 2026 I start as an Associate\u00a0-\u2060\u00a0Forward Deployed Strategist, here in Chennai.",
+      "The loop doesn't change: understand what the customer needs, then deliver it. This time the customers are professional services teams, and the work starts after they go live.",
+      "Until I start, I'm studying their side of the business, from the money up.",
+    ],
+    groups: [
+      {
+        label: "Studying before I start",
+        items: [
+          { title: "Services economics", detail: "how a services business makes its money: utilization, margin, and what each stakeholder measures" },
+          { title: "SPI Research", detail: "the 2026 Professional Services Maturity Benchmark, and what the best firms do differently" },
+          { title: "PSA platforms", detail: "how delivery teams run projects, time and margin inside one, hands on" },
+        ],
+      },
+    ],
+    updated: "Updated October 2026.",
   },
 
   experience: [
     {
       role: "Associate Product Manager, AI and Agent side",
       company: "VoxyHealth",
-      time: "Aug 2025 - Present",
+      time: "Aug 2025 - Oct 2026",
       blurb:
-        "I own the prompting and evaluation side of healthcare voice agents end to end: discovery, prompt architecture, eval rubrics, phased go-lives, live pilot calls, and the specs engineering builds against. I've built 30+ agents on ElevenLabs across 6 enterprise clients, 20 of them live in production running about «3,500 calls a day» as a fleet, and I mentor the team's two prompting interns.",
+        "I owned the prompting side of healthcare voice agents end to end: discovery, prompt architecture, launch eval suites, phased go-lives, live pilot calls, and the specs engineering built against. I built 30+ agents on ElevenLabs; by July 2026, 20 were live in production for 6 enterprise clients, running about «3,500 calls a day» as a fleet. I also mentored the team's two prompting interns.",
       chips: ["30+ built, 20 live", "10-20% to 60-70% on best cuts"],
     },
     {
@@ -267,7 +290,7 @@ export const site = {
   openSource: {
     title: "voice-agent-prompting",
     blurb:
-      "The flagship writeup: how I build production voice agents, from prompting architecture to model choice for low-latency telephony, with six worked samples for ElevenLabs. Around it sits ‹a family of builds in a different shape entirely›, platform automations and API integrations, because the discipline travels: define the contract, prove it on the live system, design the failure path first.",
+      "The flagship writeup on building production voice agents, from prompting architecture to model choice for low-latency telephony, with six worked samples for ElevenLabs. Around it sits ‹a family of builds in a different shape entirely›, platform automations and API integrations, because the discipline travels: define the contract, prove it on the live system, design the failure path first.",
     link: "https://github.com/AuskinImmanuel/voice-agent-prompting",
     linkLabel: "Read it on GitHub",
     more: [
@@ -279,12 +302,12 @@ export const site = {
       {
         title: "form-to-requirements-doc",
         href: "https://github.com/AuskinImmanuel/form-to-requirements-doc",
-        note: "A form submission becomes a requirements document, fully native, no middleware. The load-bearing step wasn't documented anywhere; I verified it by building it.",
+        note: "A form submission becomes a requirements document, fully native, no middleware. I verified the load-bearing step by building it.",
       },
       {
         title: "rocketlane-api-experiments",
         href: "https://github.com/AuskinImmanuel/rocketlane-api-experiments",
-        note: "The API sandbox both builds grew out of: pagination, rate limits, and the contract traps the docs don't warn you about.",
+        note: "The API sandbox both builds grew out of: projects, tasks, time entries, pagination, and rate limits.",
       },
     ],
   },
@@ -292,8 +315,8 @@ export const site = {
   writing: [],
 
   contact: {
-    headline: "Deploying something hard? Let's talk.",
-    location: "Based in Chennai. My customer calls already run on US hours.",
+    headline: "Always happy to talk voice AI deployment and agent reliability.",
+    location: "Based in Chennai.",
     email: "auskinimmanuel@gmail.com",
     phone: "+91 90035 43634",
     resume: "/auskin-immanuel-resume.pdf",

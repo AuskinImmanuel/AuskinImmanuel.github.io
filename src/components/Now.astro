@@ -1,0 +1,103 @@
+---
+import { site } from '../data/site';
+const n = site.now;
+---
+
+<section id="now" class="now band">
+  <div class="container-wide now-grid">
+    <div class="now-story">
+      <h2 class="section-label reveal">{n.label}</h2>
+      <h2 class="display-sm now-headline reveal">{n.headline}</h2>
+      {n.narrative.map((para, i) => <p class="now-para reveal" style={`transition-delay: ${80 + i * 70}ms`}>{para}</p>)}
+      <p class="now-updated reveal" style="transition-delay: 300ms">{n.updated}</p>
+    </div>
+    <div class="now-groups">
+      {
+        n.groups.map((g, gi) => (
+          <div class="now-group reveal" style={`transition-delay: ${gi * 90}ms`}>
+            <h3 class="now-group-label">{g.label}</h3>
+            <ul class="now-list">
+              {g.items.map((item) => (
+                <li>
+                  <span class="now-item-title">{item.title}</span>
+                  <span class="now-item-detail">{item.detail}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .now-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 72px;
+    align-items: start;
+  }
+  .now-headline {
+    margin-bottom: 26px;
+  }
+  .now-para {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text);
+    max-width: 52ch;
+  }
+  .now-para + .now-para {
+    margin-top: 18px;
+  }
+  .now-updated {
+    margin-top: 24px;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  .now-groups {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    /* Origin's 45px plus the headline's two .display-sm lines and its margin,
+       so the first group label lines up with the first paragraph. */
+    padding-top: calc(71px + 2 * 1.12 * clamp(2rem, 4.5vw, 3rem));
+  }
+  .now-group-label {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .now-list {
+    list-style: none;
+    margin-top: 6px;
+  }
+  .now-list li {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .now-item-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    white-space: nowrap;
+  }
+  .now-item-detail {
+    font-size: 0.9rem;
+    color: var(--text-muted);
+  }
+  @media (max-width: 900px) {
+    .now-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+    .now-groups {
+      padding-top: 0;
+    }
+  }
+</style>

@@ -13,9 +13,10 @@ import ThemeToggle from './ThemeToggle.astro';
       <a href="#method" data-navlink>How I work</a>
       <a href="#work" data-navlink>Work</a>
       <a href="#range" data-navlink>Range</a>
+      <a href="#now" data-navlink>Now</a>
       <a href="#experience" data-navlink>Experience</a>
       <a href={site.contact.github} target="_blank" rel="noopener">GitHub</a>
-      <a class="nav-cta" href={`mailto:${site.contact.email}`}>Email me</a>
+      <a class="nav-cta" href="#contact">Contact</a>
       <ThemeToggle />
     </div>
   </div>
@@ -80,6 +81,11 @@ import ThemeToggle from './ThemeToggle.astro';
   }
   .nav-cta:hover {
     background: var(--accent-hover);
+  }
+  @media (max-width: 900px) {
+    .nav-links a[href="#now"] {
+      display: none;
+    }
   }
   @media (max-width: 700px) {
     .nav-links {

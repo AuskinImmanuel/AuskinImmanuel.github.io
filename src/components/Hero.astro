@@ -38,6 +38,7 @@ import VoiceOrb from './VoiceOrb.astro';
           ))
         }
       </div>
+      <p class="hero-metrics-note reveal" style="transition-delay: 620ms">{site.hero.metricsNote}</p>
     </div>
     <div class="hero-visual">
       <div class="hero-visual-inner reveal" style="transition-delay: 200ms">
@@ -107,6 +108,11 @@ import VoiceOrb from './VoiceOrb.astro';
   }
   .chip-label {
     font-size: 0.84rem;
+    color: var(--text-muted);
+  }
+  .hero-metrics-note {
+    margin-top: 14px;
+    font-size: 0.8rem;
     color: var(--text-muted);
   }
   /* The talk button lives OUTSIDE any transformed/faded/reveal element so

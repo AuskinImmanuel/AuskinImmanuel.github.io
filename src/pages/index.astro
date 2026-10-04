@@ -7,6 +7,7 @@ import LiveCall from '../components/LiveCall.astro';
 import Method from '../components/Method.astro';
 import CaseStudies from '../components/CaseStudies.astro';
 import Range from '../components/Range.astro';
+import Now from '../components/Now.astro';
 import Experience from '../components/Experience.astro';
 import Origin from '../components/Origin.astro';
 import OpenSource from '../components/OpenSource.astro';
@@ -15,7 +16,7 @@ import Footer from '../components/Footer.astro';
 import { site } from '../data/site';
 ---
 
-<Base title={`${site.name}, Forward Deployed Product Manager`} description={site.tagline}>
+<Base title={site.pageTitle} description={site.tagline}>
   <Nav />
   <main>
     <Hero />
@@ -24,6 +25,7 @@ import { site } from '../data/site';
     <Method />
     <CaseStudies />
     <Range />
+    <Now />
     <Experience />
     <Origin />
     <OpenSource />
