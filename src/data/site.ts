@@ -2,11 +2,11 @@
 
 export const site = {
   name: "Auskin Immanuel",
-  pageTitle: "Auskin Immanuel, Associate - Forward Deployed Strategist at Rocketlane",
-  tagline: "I'm an Associate - Forward Deployed Strategist at Rocketlane. I put voice AI on healthcare phone lines at VoxyHealth: 30+ agents built, 20 live in production by July 2026.",
+  pageTitle: "Auskin Immanuel, Forward Deployed Strategist at Rocketlane",
+  tagline: "I'm a Forward Deployed Strategist at Rocketlane. I put voice AI on healthcare phone lines at VoxyHealth: 30+ agents built, 20 live in production by July 2026.",
 
   hero: {
-    badge: "Associate - Forward Deployed Strategist at Rocketlane",
+    badge: "Forward Deployed Strategist at Rocketlane",
     headline: "I care most about what happens after go-live.",
     sub: "At VoxyHealth I put voice AI on healthcare phone lines, where the caller is a patient and a wrong answer actually matters. I sat forward with the customer: ‹pulled their real call recordings›, catalogued what was on their lines, then built the agents and ‹iterated on live traffic› until the calls held up.",
     metrics: [
@@ -205,7 +205,7 @@ export const site = {
     label: "Now",
     headline: "Same loop, new customers.",
     narrative: [
-      "Since November 2026 I've been an Associate\u00a0-\u2060\u00a0Forward Deployed Strategist at Rocketlane, here in Chennai.",
+      "Since November 2026 I've been a Forward Deployed Strategist at Rocketlane, here in Chennai.",
       "The loop doesn't change: understand what the customer needs, then deliver it. At Rocketlane the customers are professional services teams, and the work starts after they go live.",
       "Alongside the work, I keep studying their side of the business, from the money up.",
     ],
@@ -224,7 +224,7 @@ export const site = {
 
   experience: [
     {
-      role: "Associate - Forward Deployed Strategist",
+      role: "Forward Deployed Strategist",
       company: "Rocketlane",
       time: "Nov 2026 - Present",
       blurb:
